@@ -2,26 +2,158 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes float {
+  0% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-100vh);
+    opacity: 0.3;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: auto;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.particle {
+  position: absolute;
+  background: rgba(0, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: float linear infinite ;
+  will-change: transform, opacity;
+}
+
+.circuit-path {
+  animation: draw 4s ease-in-out infinite;
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid cyan;
+  animation: typewriter 3s steps(20, end) 1s 1 normal both,
+             blink 0.7s steps(20, end) infinite;
+}
+
+@media (max-width: 768px) {
+  .particle {
+    display: none;
+  }
+  .circuit-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .typewriter {
+    animation: none;
+    width: 100%;
+    border-right: none;
+  }
+}
+/* services */
+/* Orbit Particle Animation */
+.particle-orbit {
+  animation: orbit 7s linear infinite;
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(20px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(20px) rotate(-360deg);
+  }
+}
+
+/* Scale-In Animation for Words */
+.scale-in {
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0);
+  animation: scale-in 0.6s ease-out forwards;
+}
+
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Pulse Path Animation for Circuit SVG */
+.circuit-pulse .pulse-path {
+  animation: pulse-path 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-path {
+  0% {
+    transform: scale(0.95);
+    stroke-width: 2;
+  }
+  50% {
+    transform: scale(1.05);
+    stroke-width: 3;
+  }
+  100% {
+    transform: scale(0.95);
+    stroke-width: 2;
+  }
+}
+
+/* Flow Gradient Animation for Top Border */
+.flow-gradient {
+  background-size: 200% 100%;
+  animation: flow-gradient 4s linear infinite;
+}
+
+@keyframes flow-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* Tailwind Custom Utilities */
+@media (max-width: 768px) {
+  .particle-orbit {
+    animation: none;
+    opacity: 0.2;
+  }
+  .circuit-pulse {
+    display: none;
+  }
+  .flow-gradient {
+    animation: none;
   }
 }
