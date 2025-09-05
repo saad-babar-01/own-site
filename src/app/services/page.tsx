@@ -71,6 +71,8 @@ const Services: React.FC = () => {
     { name: 'TensorFlow', icon: <Cpu size={24} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
   ];
 
+  // Split "Our Services" into letters for reveal animation
+  const titleLetters = "Our Services".split('');
   // Split "Innovate. Transform. Succeed." into words for scale-in animation
   const sloganWords = ["Innovate.", "Transform.", "Succeed."];
 
@@ -78,10 +80,10 @@ const Services: React.FC = () => {
     <div className="min-h-screen bg-black/95 text-white">
       {/* Hero Section */}
       <section className="relative bg-black/90 backdrop-blur-xl pt-40 pb-20 overflow-hidden">
-        <div className="h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 absolute top-0 left-0 right-0 flow-gradient"></div>
-        {/* Orbit Particle Background */}
+        <div className="h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 absolute top-0 left-0 right-0"></div>
+        {/* Particle Background */}
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(10)].map((_, i) => (
+          {[...Array(8)].map((_, i) => (
             <div
               key={i}
               className="absolute bg-cyan-300/30 rounded-full particle-orbit"
@@ -90,8 +92,8 @@ const Services: React.FC = () => {
                 height: `${Math.random() * 3 + 2}px`,
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
-                animation: `orbit ${Math.random() * 5 + 5}s linear infinite`,
-                animationDelay: `${Math.random() * 5}s`,
+                animation: `float-orbit ${Math.random() * 6 + 4}s linear 1`,
+                animationDelay: `${Math.random() * 4}s`,
                 willChange: 'transform',
               }}
             />
@@ -100,7 +102,15 @@ const Services: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-8">
           <div className="flex-1 text-center lg:text-left">
             <h1 className="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text text-transparent">
-              Our Services
+              {titleLetters.map((letter, index) => (
+                <span
+                  key={index}
+                  className="reveal"
+                  style={{ animationDelay: `${index * 0.1}s`, display: letter === ' ' ? 'inline-block' : 'inline' }}
+                >
+                  {letter}
+                </span>
+              ))}
             </h1>
             <p className="mt-4 text-lg md:text-xl text-cyan-300/70 max-w-lg">
               <span className="inline-block">
@@ -108,7 +118,7 @@ const Services: React.FC = () => {
                   <span
                     key={index}
                     className="scale-in"
-                    style={{ animationDelay: `${index * 0.3}s`, display: 'inline-block', marginRight: '0.2em' }}
+                    style={{ animationDelay: `${index * 0.3 + 1.2}s`, display: 'inline-block', marginRight: '0.2em' }}
                   >
                     {word}
                   </span>
@@ -118,20 +128,56 @@ const Services: React.FC = () => {
             <p className="mt-2 text-cyan-300/70 max-w-lg">
               Discover our range of innovative solutions designed to empower your business with cutting-edge technology and unparalleled expertise.
             </p>
+           
           </div>
           <div className="flex-1 hidden lg:block">
-            <svg
-              className="w-full h-64 text-cyan-300/50 circuit-pulse"
-              viewBox="0 0 200 200"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
+            <div
+              className="relative rotate-slow"
+              style={{
+                clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
+                animationDelay: '0s',
+              }}
             >
-              <path
-                d="M50 50 L50 150 L150 150 L150 50 L50 50 M75 75 L75 125 L125 125 L125 75 L75 75"
-                className="pulse-path"
-              />
-            </svg>
+              <svg
+                className="w-full h-64 text-cyan-300/50 shadow-[0_0_15px_rgba(0,255,255,0.4)]"
+                viewBox="0 0 200 200"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                {/* Hexagonal outer path */}
+                <path
+                  d="M100 20 L170 60 L170 140 L100 180 L30 140 L30 60 Z"
+                  className="pulse-path"
+                  strokeDasharray="400"
+                  strokeDashoffset="400"
+                  style={{ animationDelay: '0s' }}
+                />
+                {/* Inner hexagonal path */}
+                <path
+                  d="M100 40 L150 70 L150 130 L100 160 L50 130 L50 70 Z"
+                  className="pulse-path"
+                  strokeDasharray="300"
+                  strokeDashoffset="300"
+                  style={{ animationDelay: '0.5s' }}
+                />
+                {/* Connecting lines */}
+                <path
+                  d="M100 20 L100 40 M170 60 L150 70 M170 140 L150 130 M100 180 L100 160 M30 140 L50 130 M30 60 L50 70"
+                  className="pulse-path"
+                  strokeDasharray="200"
+                  strokeDashoffset="200"
+                  style={{ animationDelay: '1s' }}
+                />
+                {/* Nodes */}
+                <circle cx="100" cy="20" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '1.5s' }} />
+                <circle cx="170" cy="60" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '1.7s' }} />
+                <circle cx="170" cy="140" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '1.9s' }} />
+                <circle cx="100" cy="180" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '2.1s' }} />
+                <circle cx="30" cy="140" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '2.3s' }} />
+                <circle cx="30" cy="60" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '2.5s' }} />
+              </svg>
+            </div>
           </div>
         </div>
       </section>
@@ -437,16 +483,7 @@ const Services: React.FC = () => {
           <p className="mt-4 text-lg text-cyan-300/70 max-w-2xl mx-auto">
             Contact us today to discuss how our services can help you achieve your goals.
           </p>
-          <Link href="/contact">
-            <button className="mt-8 relative group bg-transparent border-2 border-cyan-400 px-8 py-3 text-cyan-300 font-black text-sm uppercase tracking-widest overflow-hidden transition-all duration-500 hover:text-black shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)] hover:shadow-[0_0_35px_rgba(0,255,255,1),0_0_70px_rgba(0,255,255,0.6)]">
-              <span className="relative z-10 flex items-center justify-center space-x-2">
-                <span>Get Started</span>
-                <ArrowRight size={16} />
-              </span>
-              <div className="absolute inset-0 bg-cyan-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-              <div className="absolute inset-0 border-2 border-cyan-400 transform scale-110 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300"></div>
-            </button>
-          </Link>
+         
         </div>
       </section>
     </div>

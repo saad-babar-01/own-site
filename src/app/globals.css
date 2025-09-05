@@ -72,17 +72,36 @@
   }
 }
 /* services */
-/* Orbit Particle Animation */
+/* Float-Orbit Particle Animation */
 .particle-orbit {
-  animation: orbit 7s linear infinite;
+  animation: float-orbit 7s linear 1;
 }
 
-@keyframes orbit {
+@keyframes float-orbit {
   0% {
     transform: rotate(0deg) translateX(20px) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
   }
   100% {
     transform: rotate(360deg) translateX(20px) rotate(-360deg);
+    opacity: 0.3;
+  }
+}
+
+/* Reveal Animation for Title Letters */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: reveal 0.5s ease-out forwards;
+}
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -109,38 +128,45 @@
   }
 }
 
-/* Pulse Path Animation for Circuit SVG */
-.circuit-pulse .pulse-path {
-  animation: pulse-path 2.5s ease-in-out infinite;
+/* Pulse-Path Animation for SVG Paths */
+.pulse-path {
+  animation: pulse-path 2s ease-in-out forwards;
 }
 
 @keyframes pulse-path {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Neon-Pulse Animation for SVG Nodes */
+.neon-pulse {
+  animation: neon-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes neon-pulse {
   0% {
-    transform: scale(0.95);
-    stroke-width: 2;
+    filter: drop-shadow(0 0 2px rgba(0, 255, 255, 0.3));
   }
   50% {
-    transform: scale(1.05);
-    stroke-width: 3;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.8));
   }
   100% {
-    transform: scale(0.95);
-    stroke-width: 2;
+    filter: drop-shadow(0 0 2px rgba(0, 255, 255, 0.3));
   }
 }
 
-/* Flow Gradient Animation for Top Border */
-.flow-gradient {
-  background-size: 200% 100%;
-  animation: flow-gradient 4s linear infinite;
+/* Rotate-Slow Animation for SVG Container */
+.rotate-slow {
+  animation: rotate-slow 20s linear infinite;
 }
 
-@keyframes flow-gradient {
+@keyframes rotate-slow {
   0% {
-    background-position: 0% 50%;
+    transform: rotate(0deg);
   }
   100% {
-    background-position: 200% 50%;
+    transform: rotate(360deg);
   }
 }
 
@@ -150,10 +176,9 @@
     animation: none;
     opacity: 0.2;
   }
-  .circuit-pulse {
+  .rotate-slow {
     display: none;
   }
-  .flow-gradient {
-    animation: none;
-  }
 }
+
+/* portfolio */
