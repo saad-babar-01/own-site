@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
   ];
 
   const quickLinks = [
-    'Home', 'Services', 'Portfolio', 'About', 'Contact'
+     'Services', 'Portfolio', 'About', 'Contact'
   ];
 
   useEffect(() => {
