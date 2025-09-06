@@ -1,227 +1,281 @@
-"use client";
-import React from 'react';
-import { Users, ArrowRight, Star, Github, Link } from 'lucide-react';
-import NextLink from 'next/link';
+"use client"
+import React, { useState } from 'react';
+import { Users, Target, Eye, Lightbulb, Code, Database, Cloud, Shield, Brain, Rocket, Star, Calendar, MapPin, Mail, Phone, ChevronDown, ChevronUp, Zap, Layers, Award } from 'lucide-react';
 
 interface TeamMember {
   name: string;
   role: string;
-  image: string;
-  github?: string;
-  linkedin?: string;
+  expertise: string;
+  bio: string;
+  years: string;
+}
+
+interface Milestone {
+  year: string;
+  title: string;
+  description: string;
+  metric: string;
 }
 
 interface Value {
+  icon: React.ReactNode;
   title: string;
   description: string;
 }
 
 const About: React.FC = () => {
+  const [expandedMember, setExpandedMember] = useState<string | null>(null);
+
   const teamMembers: TeamMember[] = [
     {
-      name: 'Alice Johnson',
+      name: 'Alex Chen',
       role: 'CEO & Founder',
-      image: '/team-alice.jpg',
-      github: 'https://github.com/alicejohnson',
-      linkedin: 'https://linkedin.com/in/alicejohnson',
+      expertise: 'AI Strategy & Innovation',
+      bio: 'Visionary leader with 15+ years driving technological transformation across Fortune 500 companies. Specializes in AI implementation and digital strategy.',
+      years: '15+'
     },
     {
-      name: 'Bob Smith',
-      role: 'Lead Developer',
-      image: '/team-bob.jpg',
-      github: 'https://github.com/bobsmith',
-      linkedin: 'https://linkedin.com/in/bobsmith',
+      name: 'Sarah Rodriguez',
+      role: 'Chief Technology Officer',
+      expertise: 'Full-Stack Architecture & Cloud',
+      bio: 'Expert in scalable system design and cloud infrastructure. Led engineering teams at major tech companies before joining NEXUS LABS.',
+      years: '12+'
     },
     {
-      name: 'Clara Williams',
-      role: 'UI/UX Designer',
-      image: '/team-clara.jpg',
-      github: 'https://github.com/clarawilliams',
-      linkedin: 'https://linkedin.com/in/clarawilliams',
+      name: 'Marcus Johnson',
+      role: 'Lead AI Engineer',
+      expertise: 'Machine Learning & Data Science',
+      bio: 'PhD in Computer Science with deep expertise in neural networks, natural language processing, and predictive analytics.',
+      years: '10+'
     },
     {
-      name: 'David Lee',
-      role: 'AI Specialist',
-      image: '/team-david.jpg',
-      github: 'https://github.com/davidlee',
-      linkedin: 'https://linkedin.com/in/davidlee',
-    },
+      name: 'Elena Volkov',
+      role: 'Head of Innovation',
+      expertise: 'Emerging Technologies & R&D',
+      bio: 'Research specialist in blockchain, quantum computing, and IoT. Holds multiple patents in distributed systems.',
+      years: '8+'
+    }
   ];
 
-  const values: Value[] = [
+  const milestones: Milestone[] = [
     {
-      title: 'Innovation',
-      description: 'We push boundaries with cutting-edge technology to deliver transformative solutions.',
+      year: '2019',
+      title: 'Foundation',
+      description: 'NEXUS LABS established with a mission to democratize advanced technology for enterprises worldwide.',
+      metric: 'Founded with $2M seed funding'
     },
     {
-      title: 'Integrity',
-      description: 'We uphold the highest standards of honesty and transparency in all our work.',
+      year: '2020',
+      title: 'Market Entry',
+      description: 'Launched our first AI-powered analytics platform, immediately capturing market attention.',
+      metric: '100+ enterprise clients'
     },
     {
-      title: 'Impact',
-      description: 'We create solutions that drive meaningful change for our clients and their users.',
+      year: '2021',
+      title: 'Global Expansion',
+      description: 'Opened international offices and established partnerships across three continents.',
+      metric: '25 countries served'
     },
+    {
+      year: '2022',
+      title: 'Industry Recognition',
+      description: 'Won multiple innovation awards and secured major enterprise partnerships.',
+      metric: '$50M in contracts secured'
+    },
+    {
+      year: '2023',
+      title: 'Technology Breakthrough',
+      description: 'Pioneered next-generation AI solutions with 40% better performance metrics.',
+      metric: '99.9% uptime achieved'
+    },
+    {
+      year: '2024',
+      title: 'Market Leadership',
+      description: 'Established as industry leader with Fortune 500 clients and cutting-edge innovations.',
+      metric: '500+ projects delivered'
+    }
   ];
 
-  // Split "About Us" into letters for cyber-shift animation
-  const titleLetters = "About Us".split('');
-  // Split "Innovate. Inspire. Impact." into words for neon-reveal animation
-  const sloganWords = ["Innovate.", "Inspire.", "Impact."];
+  const coreValues: Value[] = [
+    {
+      icon: <Zap size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      title: 'Innovation Excellence',
+      description: 'Pushing technological boundaries to deliver breakthrough solutions that redefine industry standards.'
+    },
+    {
+      icon: <Shield size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      title: 'Security First',
+      description: 'Enterprise-grade security and compliance built into every solution from the ground up.'
+    },
+    {
+      icon: <Users size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      title: 'Client Success',
+      description: 'Your success is our mission. We partner with you to achieve measurable business outcomes.'
+    },
+    {
+      icon: <Layers size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      title: 'Technical Mastery',
+      description: 'Deep expertise across cutting-edge technologies, from AI to quantum computing.'
+    }
+  ];
+
+  const toggleMemberDetails = (memberName: string) => {
+    setExpandedMember(expandedMember === memberName ? null : memberName);
+  };
 
   return (
     <div className="min-h-screen bg-black/95 text-white">
       {/* Hero Section */}
-      <section className="relative bg-black/90 backdrop-blur-xl pt-48 pb-20 overflow-hidden">
+      <section className="relative bg-black/90 backdrop-blur-xl pt-40 pb-20 overflow-hidden">
         <div className="h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 absolute top-0 left-0 right-0"></div>
-        {/* Starfield Background */}
-        <div className="absolute inset-0 starfield-pulse">
-          {[...Array(50)].map((_, i) => (
+        
+        {/* Particle Background */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(15)].map((_, i) => (
             <div
               key={i}
-              className="absolute bg-cyan-300/50 rounded-full"
+              className="absolute bg-cyan-300/20 rounded-full particle"
               style={{
-                width: `${Math.random() * 2 + 1}px`,
-                height: `${Math.random() * 2 + 1}px`,
+                width: `${Math.random() * 4 + 2}px`,
+                height: `${Math.random() * 4 + 2}px`,
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
-                animation: `starfield-pulse ${Math.random() * 3 + 2}s linear 1`,
-                animationDelay: `${Math.random() * 3}s`,
-              }}
-            />
-          ))}
-        </div>
-        {/* Interactive Particle Trails */}
-        <div className="absolute inset-0 pointer-events-auto">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute bg-cyan-300/30 rounded-full trail-orbit hover:shadow-[0_0_10px_rgba(0,255,255,0.8)] transition-all duration-300"
-              style={{
-                width: `${Math.random() * 5 + 3}px`,
-                height: `${Math.random() * 5 + 3}px`,
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animation: `trail-orbit ${Math.random() * 8 + 5}s linear 1`,
+                animation: `float ${Math.random() * 10 + 6}s infinite`,
                 animationDelay: `${Math.random() * 5}s`,
-                willChange: 'transform',
+                willChange: 'transform, opacity',
               }}
             />
           ))}
         </div>
-        {/* Central Glowing Orb */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-cyan-500/20 rounded-full shadow-[0_0_50px_rgba(0,255,255,0.5)] neon-pulse"></div>
-        {/* 3D Sphere Cluster */}
-        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 hidden lg:block">
-          <div className="sphere-cluster sphere-orbit">
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="sphere"
-                style={{
-                  position: 'absolute',
-                  width: '40px',
-                  height: '40px',
-                  background: 'radial-gradient(circle, rgba(6, 182, 212, 0.5) 0%, transparent 70%)',
-                  borderRadius: '50%',
-                  transform: `translate(${Math.random() * 80 - 40}px, ${Math.random() * 80 - 40}px) scale(1)`,
-                  animationDelay: `${i * 0.2}s`,
-                }}
-              >
-                <div className="sphere-inner neon-pulse" style={{ animationDelay: `${i * 0.2 + 0.5}s` }}></div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text text-transparent cyber-shift">
-            {titleLetters.map((letter, index) => (
-              <span
-                key={index}
-                data-text={letter}
-                style={{ animationDelay: `${index * 0.1}s`, display: letter === ' ' ? 'inline-block' : 'inline' }}
-              >
-                {letter}
-              </span>
-            ))}
-          </h1>
-          <p className="mt-6 text-xl md:text-2xl text-cyan-300/70 max-w-lg mx-auto">
-            <span className="inline-block">
-              {sloganWords.map((word, index) => (
-                <span
-                  key={index}
-                  className="neon-reveal"
-                  style={{ animationDelay: `${index * 0.5 + 1.5}s`, display: 'inline-block', marginRight: '0.2em' }}
-                >
-                  {word}
-                </span>
-              ))}
-            </span>
-          </p>
-          <p className="mt-4 text-lg text-cyan-300/70 max-w-lg mx-auto">
-            Explore NEXUS LABS, where visionary minds craft the future with bold technology and relentless passion.
-          </p>
-        </div>
-      </section>
 
-      {/* Our Story Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cyan-400 text-center mb-8 reveal">Our Story</h2>
-          <div className="max-w-3xl mx-auto text-cyan-300/70 reveal" style={{ animationDelay: '0.2s' }}>
-            <p>
-              Founded in 2015, NEXUS LABS is a trailblazing software house dedicated to transforming ideas into reality. With a passion for innovation, we deliver cutting-edge solutions that empower businesses worldwide.
+          <div className="text-center">
+            <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6">
+              <span className="bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text text-transparent">
+                ABOUT
+              </span>{' '}
+              <span className="text-cyan-400">
+                NEXUS LABS
+              </span>
+            </h1>
+            <div className="w-32 h-1 bg-gradient-to-r from-cyan-500 to-cyan-300 mx-auto mb-8"></div>
+            <p className="text-xl md:text-2xl text-cyan-300/70 max-w-4xl mx-auto leading-relaxed">
+              Pioneering the future of enterprise technology through innovation, expertise, and unwavering commitment to excellence.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Our Team Section */}
+      {/* Company Overview */}
       <section className="py-16 bg-black/90 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cyan-400 text-center mb-8 reveal">Our Team</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl font-black text-cyan-400 mb-8">Our Mission</h2>
+              <div className="space-y-6">
+                <p className="text-cyan-300/70 text-lg leading-relaxed">
+                  Founded in 2019, NEXUS LABS emerged from a vision to bridge the gap between cutting-edge technology and practical business solutions. We specialize in transforming complex technological challenges into streamlined, scalable solutions.
+                </p>
+                <p className="text-cyan-300/70 text-lg leading-relaxed">
+                  Our team of world-class engineers, data scientists, and technology strategists work collaboratively to deliver solutions that don't just meet today's needs, but anticipate tomorrow's opportunities.
+                </p>
+                <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
+                  <p className="text-cyan-300 font-bold text-lg italic">
+                    "Innovation is not just what we do—it's who we are. Every solution we create pushes the boundaries of what's possible."
+                  </p>
+                  <p className="text-cyan-300/70 mt-2">— Alex Chen, CEO & Founder</p>
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] transition-all duration-300">
+                <div className="text-center">
+                  <div className="text-4xl font-black text-cyan-400 mb-2">500+</div>
+                  <div className="text-cyan-300/70 text-sm uppercase tracking-wide">Projects Delivered</div>
+                </div>
+              </div>
+              <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] transition-all duration-300">
+                <div className="text-center">
+                  <div className="text-4xl font-black text-cyan-400 mb-2">50+</div>
+                  <div className="text-cyan-300/70 text-sm uppercase tracking-wide">Global Clients</div>
+                </div>
+              </div>
+              <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] transition-all duration-300">
+                <div className="text-center">
+                  <div className="text-4xl font-black text-cyan-400 mb-2">99.9%</div>
+                  <div className="text-cyan-300/70 text-sm uppercase tracking-wide">Uptime Guarantee</div>
+                </div>
+              </div>
+              <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] transition-all duration-300">
+                <div className="text-center">
+                  <div className="text-4xl font-black text-cyan-400 mb-2">24/7</div>
+                  <div className="text-cyan-300/70 text-sm uppercase tracking-wide">Enterprise Support</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Core Values */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <h2 className="text-3xl font-black text-cyan-400 text-center mb-12">Core Values</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {coreValues.map((value, index) => (
+              <div
+                key={value.title}
+                className="group relative bg-black/80 border border-cyan-500/20 p-8 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)]"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="flex justify-center mb-6">{value.icon}</div>
+                <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 text-center mb-4 transition-colors duration-300">
+                  {value.title}
+                </h3>
+                <p className="text-cyan-300/70 text-center leading-relaxed">{value.description}</p>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership Team */}
+      <section className="py-16 bg-black/90 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <h2 className="text-3xl font-black text-cyan-400 text-center mb-12">Leadership Team</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member, index) => (
               <div
                 key={member.name}
-                className="group relative bg-black/80 border border-cyan-500/20 p-6 rounded-lg hex-pulse hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] reveal"
-                style={{ animationDelay: `${index * 0.15}s` }}
+                className="group relative"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div
-                  className="overflow-hidden mb-4 mx-auto w-32 h-32"
-                  style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
-                >
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="flex justify-center mb-4">
-                  <Users size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
-                </div>
-                <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 text-center transition-colors duration-300">
-                  {member.name}
-                </h3>
-                <p className="text-cyan-300/70 text-center">{member.role}</p>
-                <div className="mt-4 flex justify-center gap-4">
-                  {member.github && (
-                    <a href={member.github} target="_blank" rel="noopener noreferrer" className="group/icon flex items-center text-cyan-300 hover:text-cyan-100 transition-colors duration-300">
-                      <Github size={20} className="mr-1" />
-                      <span className="text-sm relative">
-                        GitHub
-                        <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover/icon:w-full"></div>
-                      </span>
-                    </a>
-                  )}
-                  {member.linkedin && (
-                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="group/icon flex items-center text-cyan-300 hover:text-cyan-100 transition-colors duration-300">
-                      <Link size={20} className="mr-1" />
-                      <span className="text-sm relative">
-                        LinkedIn
-                        <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover/icon:w-full"></div>
-                      </span>
-                    </a>
-                  )}
+                <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)]">
+                  <div className="text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-cyan-500/20 to-cyan-300/20 rounded-full flex items-center justify-center border-2 border-cyan-500/30 group-hover:border-cyan-500/50 transition-colors duration-300">
+                      <Users size={32} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
+                    </div>
+                    <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 mb-2 transition-colors duration-300">{member.name}</h3>
+                    <p className="text-cyan-400 font-semibold text-sm mb-2 uppercase tracking-wide">{member.role}</p>
+                    <p className="text-cyan-300/70 text-sm mb-3">{member.expertise}</p>
+                    <div className="text-cyan-500 font-bold text-lg mb-4">{member.years} Years</div>
+                    <button
+                      onClick={() => toggleMemberDetails(member.name)}
+                      className="text-cyan-300 hover:text-cyan-100 text-sm font-bold uppercase tracking-wider flex items-center mx-auto transition-colors duration-300"
+                    >
+                      {expandedMember === member.name ? (
+                        <>Less <ChevronUp size={16} className="ml-1" /></>
+                      ) : (
+                        <>Details <ChevronDown size={16} className="ml-1" /></>
+                      )}
+                    </button>
+                    {expandedMember === member.name && (
+                      <div className="mt-4 p-4 bg-black/60 border border-cyan-500/30 rounded-lg">
+                        <p className="text-cyan-300/70 text-sm leading-relaxed">{member.bio}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -229,87 +283,97 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* Values Section */}
+      {/* Company Timeline */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <h2 className="text-3xl font-black text-cyan-400 text-center mb-12">Our Journey</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {milestones.map((milestone, index) => (
+              <div
+                key={milestone.year}
+                className="group relative bg-black/80 border border-cyan-500/20 p-8 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)]"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-cyan-500 to-cyan-300 text-black px-4 py-2 rounded-full text-lg font-black mr-4">
+                    {milestone.year}
+                  </div>
+                  <Calendar size={24} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
+                </div>
+                <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 mb-4 transition-colors duration-300">
+                  {milestone.title}
+                </h3>
+                <p className="text-cyan-300/70 mb-4 leading-relaxed">{milestone.description}</p>
+                <div className="bg-black/60 border border-cyan-500/30 p-3 rounded-lg">
+                  <p className="text-cyan-400 font-bold text-sm uppercase tracking-wide">{milestone.metric}</p>
+                </div>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Technology Expertise */}
       <section className="py-16 bg-black/90 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cyan-400 text-center mb-8 reveal">Our Values</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {values.map((value, index) => (
+          <h2 className="text-3xl font-black text-cyan-400 text-center mb-12">Technology Expertise</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {[
+              { name: 'Artificial Intelligence', icon: <Brain size={32} /> },
+              { name: 'Cloud Computing', icon: <Cloud size={32} /> },
+              { name: 'Blockchain', icon: <Shield size={32} /> },
+              { name: 'Data Analytics', icon: <Database size={32} /> },
+              { name: 'Full-Stack Dev', icon: <Code size={32} /> },
+              { name: 'Machine Learning', icon: <Zap size={32} /> }
+            ].map((tech, index) => (
               <div
-                key={value.title}
-                className="group relative bg-black/80 p-6 rounded-lg gradient-border hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] reveal"
-                style={{ animationDelay: `${index * 0.15}s` }}
+                key={tech.name}
+                className="group bg-black/80 border border-cyan-500/20 p-6 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] text-center"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="flex justify-center mb-4">
-                  <Star size={40} className="text-cyan-300 group-hover:text-cyan-100 icon-pulse transition-colors duration-300" />
+                <div className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300 flex justify-center mb-4">
+                  {tech.icon}
                 </div>
-                <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 text-center transition-colors duration-300">
-                  {value.title}
-                </h3>
-                <p className="mt-2 text-cyan-300/70 text-center">{value.description}</p>
+                <p className="text-cyan-300/70 text-sm font-semibold">{tech.name}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Vision Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl relative">
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(10)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute bg-cyan-300/20 rounded-full particle-orbit"
-              style={{
-                width: `${Math.random() * 3 + 2}px`,
-                height: `${Math.random() * 3 + 2}px`,
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animation: `particle-orbit ${Math.random() * 6 + 4}s linear 1`,
-                animationDelay: `${Math.random() * 4}s`,
-                willChange: 'transform',
-              }}
-            />
-          ))}
-        </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cyan-400 text-center mb-8 reveal">Our Vision</h2>
-          <div className="max-w-3xl mx-auto text-cyan-300/70 reveal" style={{ animationDelay: '0.2s' }}>
-            <p>
-              At NEXUS LABS, we envision a future where technology seamlessly empowers humanity, driving innovation and connectivity across the globe. Our goal is to lead the way in creating intelligent, sustainable solutions that shape a better tomorrow.
+      {/* Contact CTA */}
+        <section className="py-20 bg-black/90 backdrop-blur-xl">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <div className="bg-black/80 border border-cyan-500/20 p-12 rounded-lg shadow-[0_0_25px_rgba(0,255,255,0.3)]">
+            <h2 className="text-3xl font-black text-cyan-400 mb-6">Ready to Innovate Together?</h2>
+            <p className="text-cyan-300/70 text-lg mb-8 max-w-2xl mx-auto">
+                Partner with NEXUS LABS to transform your business through cutting-edge technology solutions. Let's build the future, today.
             </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-8 py-4 rounded-lg font-bold uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]">
+                Start Your Project
+              </button>
+              <button className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-8 py-4 rounded-lg font-bold uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]">
+                Schedule Consultation
+              </button>
+            </div>
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl relative">
-        <div
-          className="absolute inset-0 opacity-10 grid-pulse pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0z' fill='none'/%3E%3Cpath d='M0 20h40M20 0v40' stroke='%2306b6d4' stroke-width='1'/%3E%3C/svg%3E")`,
-            backgroundRepeat: 'repeat',
-          }}
-        ></div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-black text-cyan-400 tracking-tight">
-            Shape the Future
-          </h2>
-          <p className="mt-4 text-lg text-cyan-300/70 max-w-2xl mx-auto">
-            Join NEXUS LABS to build groundbreaking solutions that redefine industries.
-          </p>
-          <NextLink href="/contact">
-            <button className="mt-8 relative group bg-transparent border-2 border-cyan-400 px-8 py-3 text-cyan-300 font-black text-sm uppercase tracking-widest overflow-hidden transition-all duration-500 hover:text-black shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)] hover:shadow-[0_0_40px_rgba(0,255,255,1),0_0_80px_rgba(0,255,255,0.7)] halo-glow hover:scale-120 hover:rotate-5">
-              <span className="relative z-10 flex items-center justify-center space-x-2">
-                <span>Get Started</span>
-                <ArrowRight size={16} />
-              </span>
-              <div className="absolute inset-0 bg-cyan-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-              <div className="absolute inset-0 border-2 border-cyan-400 transform scale-110 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300"></div>
-            </button>
-          </NextLink>
-        </div>
-      </section>
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+          50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+        
+        .animation-delay-2s { animation-delay: 2s; }
+        .animation-delay-4s { animation-delay: 4s; }
+        
+        .particle {
+          filter: blur(0.5px);
+        }
+      `}</style>
     </div>
   );
 };

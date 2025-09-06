@@ -13,10 +13,10 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   const navLinks: NavLink[] = [
-    { label: 'Services', href: '/services', icon: <Code size={16} /> },
-    { label: 'Portfolio', href: '/portfolio', icon: <Zap size={16} /> },
-    { label: 'About', href: '/about', icon: <Shield size={16} /> },
-    { label: 'Technology', href: '/tech', icon: <Cpu size={16} /> },
+    { label: 'Services', href: '/services', icon: <Code size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
+    { label: 'Portfolio', href: '/portfolio', icon: <Zap size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
+    { label: 'About', href: '/about', icon: <Shield size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
+    { label: 'Technology', href: '/tech', icon: <Cpu size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
     { label: 'Contact', href: '/contact' }
   ];
 
@@ -43,23 +43,42 @@ const Header: React.FC = () => {
       {/* Top neon accent line */}
       <div className="h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50"></div>
       
+      {/* Particle Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(8)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute bg-cyan-300/20 rounded-full particle"
+            style={{
+              width: `${Math.random() * 4 + 2}px`,
+              height: `${Math.random() * 4 + 2}px`,
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animation: `float ${Math.random() * 10 + 6}s infinite`,
+              animationDelay: `${Math.random() * 5}s`,
+              willChange: 'transform, opacity',
+            }}
+          />
+        ))}
+      </div>
+
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
           {/* Logo Section */}
           <div className="flex items-center space-x-4 group cursor-pointer">
             <div className="relative">
-              <div className="w-12 h-12 bg-cyan-500 transform rotate-45 transition-all duration-500 group-hover:rotate-180 group-hover:scale-110 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,255,0.7)]">
+              <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-cyan-400 transform rotate-45 transition-all duration-500 group-hover:rotate-180 group-hover:scale-110 flex items-center justify-center shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]">
                 <Code className="text-black transform -rotate-45 group-hover:rotate-45 transition-transform duration-500" size={24} />
               </div>
-              <div className="absolute inset-0 w-12 h-12 border-2 border-cyan-500/50 transform rotate-45 animate-pulse shadow-[0_0_15px_rgba(0,255,255,0.5)]"></div>
+              <div className="absolute inset-0 w-12 h-12 border-2 border-transparent bg-gradient-to-r from-cyan-500/50 to-cyan-400/50 transform rotate-45 animate-pulse opacity-50 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_15px_rgba(0,255,255,0.5)]"></div>
             </div>
             <div className="hidden md:block">
               <h1 className="text-2xl font-black text-cyan-400 tracking-tight">
                 NEXUS
                 <span className="text-lg font-light text-cyan-200/70 ml-2">LABS</span>
               </h1>
-              <div className="h-0.5 bg-gradient-to-r from-cyan-500 via-cyan-300/50 to-transparent transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700"></div>
+              <div className="h-0.5 bg-gradient-to-r from-cyan-500 to-cyan-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700"></div>
             </div>
           </div>
 
@@ -69,28 +88,14 @@ const Header: React.FC = () => {
               <div key={link.label} className="relative group">
                 <a
                   href={link.href}
-                  className="relative px-6 py-3 text-cyan-300 font-bold text-sm uppercase tracking-widest transition-all duration-300 flex items-center space-x-2 hover:text-black"
+                  className="relative px-6 py-3 text-cyan-300 font-bold text-sm uppercase tracking-widest transition-all duration-300 flex items-center space-x-2 bg-black/80 rounded-lg hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-400 hover:text-black hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  {/* Background animation */}
-                  <div className="absolute inset-0 bg-cyan-500 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100 -skew-x-12 shadow-[0_0_15px_rgba(0,255,255,0.5)]"></div>
-                  
-                  {/* Border animations */}
-                  <div className="absolute top-0 left-0 w-0 h-0.5 bg-cyan-400 transition-all duration-300 group-hover:w-full"></div>
-                  <div className="absolute bottom-0 right-0 w-0 h-0.5 bg-cyan-400 transition-all duration-300 delay-200 group-hover:w-full"></div>
-                  <div className="absolute top-0 left-0 w-0.5 h-0 bg-cyan-400 transition-all duration-300 delay-100 group-hover:h-full"></div>
-                  <div className="absolute bottom-0 right-0 w-0.5 h-0 bg-cyan-400 transition-all duration-300 delay-300 group-hover:h-full"></div>
-                  
-                  {/* Content */}
-                  <span className="relative z-10 transition-colors duration-300 group-hover:text-black">
+                  <span className="relative z-10 flex items-center space-x-2">
                     {link.icon && <span className="transition-transform duration-300 group-hover:scale-110">{link.icon}</span>}
                     <span>{link.label}</span>
                   </span>
-                  
-                  {/* Neon glow effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
-                    <div className="absolute inset-0 bg-cyan-500 transform translate-x-0.5 translate-y-0.5 -z-10 shadow-[0_0_10px_rgba(0,255,255,0.7)]"></div>
-                  </div>
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
                 </a>
               </div>
             ))}
@@ -98,24 +103,22 @@ const Header: React.FC = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <button className="relative group bg-transparent border-2 border-cyan-400 px-8 py-3 text-cyan-300 font-black text-sm uppercase tracking-widest overflow-hidden transition-all duration-500 hover:text-black shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)] hover:shadow-[0_0_35px_rgba(0,255,255,1),0_0_70px_rgba(0,255,255,0.6)]">
+            <button className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-8 py-3 rounded-lg font-bold text-sm uppercase tracking-widest transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]">
               <span className="relative z-10">GET QUOTE</span>
-              <div className="absolute inset-0 bg-cyan-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-              <div className="absolute inset-0 border-2 border-cyan-400 transform scale-110 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300"></div>
             </button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="lg:hidden relative w-10 h-10 flex items-center justify-center text-cyan-300 transition-all duration-300 hover:text-cyan-100 shadow-[0_0_15px_rgba(0,255,255,0.6)] hover:shadow-[0_0_25px_rgba(0,255,255,0.8)]"
+            className="lg:hidden relative w-10 h-10 flex items-center justify-center bg-black/80 border border-cyan-500/30 rounded-lg text-cyan-300 transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-400 hover:text-black hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]"
             aria-label="Toggle menu"
           >
             <div className="relative">
               {isMenuOpen ? (
-                <X />
+                <X className="transition-transform duration-300 scale-100" />
               ) : (
-                <Menu />
+                <Menu className="transition-transform duration-300 scale-100" />
               )}
             </div>
           </button>
@@ -131,12 +134,12 @@ const Header: React.FC = () => {
             <a
               key={link.label}
               href={link.href}
-              className="group flex items-center space-x-4 text-cyan-300 text-xl font-bold uppercase tracking-wider py-4 border-b border-cyan-500/20 transition-all duration-300 hover:text-cyan-100 hover:translate-x-4"
+              className="group flex items-center space-x-4 text-cyan-300 text-xl font-bold uppercase tracking-wider py-4 border-b border-cyan-500/20 bg-black/80 rounded-lg transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-400 hover:text-black hover:shadow-[0_0_20px_rgba(0,255,255,0.3)]"
               style={{ animationDelay: `${index * 0.1}s` }}
               onClick={() => setIsMenuOpen(false)}
             >
               {link.icon && (
-                <span className="text-cyan-300/50 group-hover:text-cyan-100 transition-colors duration-300">
+                <span className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110">
                   {link.icon}
                 </span>
               )}
@@ -145,11 +148,22 @@ const Header: React.FC = () => {
             </a>
           ))}
           
-          <button className="w-full mt-8 bg-cyan-500 text-black py-4 text-xl font-black uppercase tracking-widest transition-all duration-300 hover:bg-cyan-400 transform hover:scale-105 shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)] hover:shadow-[0_0_35px_rgba(0,255,255,1),0_0_70px_rgba(0,255,255,0.6)]">
+          <button className="w-full mt-8 bg-gradient-to-r from-cyan-500 to-cyan-400 text-black py-4 rounded-lg text-xl font-black uppercase tracking-widest transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]">
             GET QUOTE
           </button>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+          50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+        
+        .particle {
+          filter: blur(0.5px);
+        }
+      `}</style>
     </header>
   );
 };

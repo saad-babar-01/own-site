@@ -1,387 +1,510 @@
-
-"use client";
+"use client"
 import React, { useState } from 'react';
-import { Briefcase, ArrowRight, Quote, ExternalLink, Github } from 'lucide-react';
-import Link from 'next/link';
+import { Brain, Cloud, Shield, Code, Database, Zap, Users, Target, Eye, Layers, Award, ArrowRight, CheckCircle, Star, Briefcase, Settings, Globe, ChevronDown, ChevronUp, ExternalLink, Play, Calendar, TrendingUp, Activity } from 'lucide-react';
 
-interface PortfolioItem {
+interface Project {
+  id: string;
   title: string;
-  descriptionPoints: string[];
+  category: string;
+  description: string;
   image: string;
-  category: 'Web' | 'Mobile' | 'AI' | 'Cloud' | 'Cybersecurity' | 'DevOps';
   technologies: string[];
-  liveUrl: string;
-  codeUrl: string;
+  features: string[];
+  results: {
+    metric: string;
+    value: string;
+    description: string;
+  }[];
+  timeline: string;
+  client: string;
+  industry: string;
+  liveUrl?: string;
+  caseStudyUrl?: string;
 }
 
-interface Testimonial {
-  quote: string;
-  author: string;
-  role: string;
+interface Category {
+  id: string;
+  name: string;
+  count: number;
+  icon: React.ReactNode;
 }
 
 const Portfolio: React.FC = () => {
-  const [filter, setFilter] = useState<'All' | 'Web' | 'Mobile' | 'AI' | 'Cloud' | 'Cybersecurity' | 'DevOps'>('All');
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [expandedProject, setExpandedProject] = useState<string | null>(null);
 
-  const portfolioItems: PortfolioItem[] = [
+  const categories: Category[] = [
     {
-      title: 'E-Commerce Platform',
-      descriptionPoints: [
-        'Scalable online store with advanced payment integration.',
-        'Real-time analytics dashboard for business insights.',
-        'Responsive design for seamless shopping experiences.',
-      ],
-      image: '/portfolio-ecommerce.jpg',
-      category: 'Web',
-      technologies: ['React', 'Next.js', 'Stripe', 'AWS'],
-      liveUrl: 'https://ecommerce-example.com',
-      codeUrl: 'https://github.com/nexuslabs/ecommerce-platform',
+      id: 'all',
+      name: 'All Projects',
+      count: 12,
+      icon: <Globe size={20} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
     },
     {
-      title: 'Healthcare App',
-      descriptionPoints: [
-        'Secure patient management system with AI diagnostics.',
-        'Telemedicine features for remote consultations.',
-        'HIPAA-compliant data handling and storage.',
-      ],
-      image: '/portfolio-healthcare.jpg',
-      category: 'Mobile',
-      technologies: ['React Native', 'TensorFlow', 'AWS', 'Node.js'],
-      liveUrl: 'https://healthcare-app.com',
-      codeUrl: 'https://github.com/nexuslabs/healthcare-app',
+      id: 'ai-ml',
+      name: 'AI & Machine Learning',
+      count: 4,
+      icon: <Brain size={20} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
     },
     {
-      title: 'FinTech Dashboard',
-      descriptionPoints: [
-        'Real-time tracking of investments and market trends.',
-        'Secure API integrations for financial data.',
-        'Customizable widgets for personalized user experience.',
-      ],
-      image: '/portfolio-fintech.jpg',
-      category: 'Web',
-      technologies: ['React', 'TypeScript', 'GraphQL', 'AWS Amplify'],
-      liveUrl: 'https://fintech-dashboard.com',
-      codeUrl: 'https://github.com/nexuslabs/fintech-dashboard',
+      id: 'web-development',
+      name: 'Web Development',
+      count: 3,
+      icon: <Code size={20} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
     },
     {
-      title: 'EdTech Platform',
-      descriptionPoints: [
-        'Interactive learning management system.',
-        'Course creation tools for educators.',
-        'Gamified learning experiences for students.',
-      ],
-      image: '/portfolio-edtech.jpg',
-      category: 'Web',
-      technologies: ['Next.js', 'MongoDB', 'Tailwind CSS', 'Vercel'],
-      liveUrl: 'https://edtech-platform.com',
-      codeUrl: 'https://github.com/nexuslabs/edtech-platform',
+      id: 'cloud-infrastructure',
+      name: 'Cloud & Infrastructure',
+      count: 3,
+      icon: <Cloud size={20} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
     },
     {
-      title: 'AI-Powered Chatbot',
-      descriptionPoints: [
-        'Intelligent customer support chatbot.',
-        'NLP integration for natural language understanding.',
-        'CRM system compatibility for seamless operations.',
-      ],
-      image: '/portfolio-chatbot.jpg',
-      category: 'AI',
-      technologies: ['Python', 'TensorFlow', 'AWS Lambda', 'Dialogflow'],
-      liveUrl: 'https://ai-chatbot.com',
-      codeUrl: 'https://github.com/nexuslabs/ai-chatbot',
-    },
-    {
-      title: 'Cloud Migration Solution',
-      descriptionPoints: [
-        'Seamless migration tool for enterprise applications.',
-        'Zero downtime during cloud transition.',
-        'Cost-effective infrastructure optimization.',
-      ],
-      image: '/portfolio-cloud.jpg',
-      category: 'Cloud',
-      technologies: ['AWS', 'Docker', 'Kubernetes', 'Terraform'],
-      liveUrl: 'https://cloud-migration.com',
-      codeUrl: 'https://github.com/nexuslabs/cloud-migration',
-    },
-    {
-      title: 'Cybersecurity Suite',
-      descriptionPoints: [
-        'Advanced threat detection and prevention system.',
-        'Real-time monitoring with automated alerts.',
-        'Compliance with GDPR and ISO 27001 standards.',
-      ],
-      image: '/portfolio-cybersecurity.jpg',
-      category: 'Cybersecurity',
-      technologies: ['Python', 'Splunk', 'AWS WAF', 'OpenSSL'],
-      liveUrl: 'https://cybersecurity-suite.com',
-      codeUrl: 'https://github.com/nexuslabs/cybersecurity-suite',
-    },
-    {
-      title: 'DevOps Pipeline',
-      descriptionPoints: [
-        'Automated CI/CD pipeline for rapid deployments.',
-        'Infrastructure as code for scalable systems.',
-        'Monitoring and logging for performance insights.',
-      ],
-      image: '/portfolio-devops.jpg',
-      category: 'DevOps',
-      technologies: ['Jenkins', 'Docker', 'Kubernetes', 'Ansible'],
-      liveUrl: 'https://devops-pipeline.com',
-      codeUrl: 'https://github.com/nexuslabs/devops-pipeline',
-    },
-    {
-      title: 'Social Media Analytics',
-      descriptionPoints: [
-        'Real-time analytics for social media campaigns.',
-        'Sentiment analysis using AI models.',
-        'Custom reporting dashboards for clients.',
-      ],
-      image: '/portfolio-socialmedia.jpg',
-      category: 'AI',
-      technologies: ['Python', 'PyTorch', 'AWS S3', 'React'],
-      liveUrl: 'https://socialmedia-analytics.com',
-      codeUrl: 'https://github.com/nexuslabs/socialmedia-analytics',
-    },
-    {
-      title: 'IoT Smart Home App',
-      descriptionPoints: [
-        'Mobile app for controlling smart home devices.',
-        'Integration with IoT protocols like MQTT.',
-        'Secure user authentication and data encryption.',
-      ],
-      image: '/portfolio-iot.jpg',
-      category: 'Mobile',
-      technologies: ['Flutter', 'AWS IoT', 'Node.js', 'MongoDB'],
-      liveUrl: 'https://iot-smarthome.com',
-      codeUrl: 'https://github.com/nexuslabs/iot-smarthome',
-    },
+      id: 'cybersecurity',
+      name: 'Cybersecurity',
+      count: 2,
+      icon: <Shield size={20} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
+    }
   ];
 
-  const testimonials: Testimonial[] = [
+  const projects: Project[] = [
     {
-      quote: 'NEXUS LABS delivered an exceptional e-commerce platform that boosted our sales by 40%.',
-      author: 'Jane Doe',
-      role: 'CEO, ShopTrend',
+      id: 'ai-analytics-platform',
+      title: 'AI-Powered Analytics Platform',
+      category: 'ai-ml',
+      description: 'Enterprise-grade analytics platform with real-time data processing and predictive modeling capabilities.',
+      image: '/placeholder-project-1.jpg',
+      technologies: ['Python', 'TensorFlow', 'React', 'PostgreSQL', 'Docker', 'AWS'],
+      features: [
+        'Real-time data ingestion',
+        'Predictive analytics models',
+        'Interactive dashboards',
+        'Automated reporting',
+        'API integrations'
+      ],
+      results: [
+        { metric: 'Data Processing Speed', value: '10x Faster', description: 'Improved processing speed compared to legacy system' },
+        { metric: 'Prediction Accuracy', value: '94%', description: 'Machine learning model accuracy rate' },
+        { metric: 'Cost Reduction', value: '40%', description: 'Operational cost savings achieved' }
+      ],
+      timeline: '16 weeks',
+      client: 'TechCorp Global',
+      industry: 'Technology',
+      liveUrl: '#',
+      caseStudyUrl: '#'
     },
     {
-      quote: 'The healthcare app was a game-changer for our clinic, streamlining patient care.',
-      author: 'Dr. John Smith',
-      role: 'Chief Medical Officer',
+      id: 'ecommerce-platform',
+      title: 'Next-Gen E-Commerce Platform',
+      category: 'web-development',
+      description: 'Scalable e-commerce solution with advanced payment processing and inventory management.',
+      image: '/placeholder-project-2.jpg',
+      technologies: ['Next.js', 'TypeScript', 'Stripe', 'MongoDB', 'Redis', 'Vercel'],
+      features: [
+        'Multi-vendor marketplace',
+        'Advanced search & filtering',
+        'Real-time inventory tracking',
+        'Mobile-first design',
+        'Payment gateway integration'
+      ],
+      results: [
+        { metric: 'Sales Increase', value: '250%', description: 'Revenue growth in first 6 months' },
+        { metric: 'Page Load Speed', value: '0.8s', description: 'Average page load time' },
+        { metric: 'Mobile Conversions', value: '65%', description: 'Mobile traffic conversion rate' }
+      ],
+      timeline: '20 weeks',
+      client: 'RetailMax',
+      industry: 'E-Commerce',
+      liveUrl: '#',
+      caseStudyUrl: '#'
     },
+    {
+      id: 'cloud-migration',
+      title: 'Enterprise Cloud Migration',
+      category: 'cloud-infrastructure',
+      description: 'Complete migration of legacy infrastructure to scalable cloud architecture.',
+      image: '/placeholder-project-3.jpg',
+      technologies: ['AWS', 'Kubernetes', 'Terraform', 'Docker', 'Jenkins', 'Prometheus'],
+      features: [
+        'Zero-downtime migration',
+        'Auto-scaling infrastructure',
+        'Disaster recovery setup',
+        'Cost optimization',
+        'Security compliance'
+      ],
+      results: [
+        { metric: 'Uptime Improvement', value: '99.99%', description: 'System availability achieved' },
+        { metric: 'Cost Savings', value: '45%', description: 'Infrastructure cost reduction' },
+        { metric: 'Deployment Speed', value: '10x Faster', description: 'Application deployment time' }
+      ],
+      timeline: '12 weeks',
+      client: 'FinanceFirst Bank',
+      industry: 'Financial Services',
+      caseStudyUrl: '#'
+    },
+    {
+      id: 'security-soc',
+      title: 'Security Operations Center',
+      category: 'cybersecurity',
+      description: '24/7 security monitoring and incident response system with AI-powered threat detection.',
+      image: '/placeholder-project-4.jpg',
+      technologies: ['Splunk', 'ELK Stack', 'Python', 'CrowdStrike', 'Palo Alto', 'MISP'],
+      features: [
+        '24/7 threat monitoring',
+        'AI-powered detection',
+        'Automated incident response',
+        'Compliance reporting',
+        'Threat intelligence integration'
+      ],
+      results: [
+        { metric: 'Threat Detection', value: '99.7%', description: 'Advanced threat detection rate' },
+        { metric: 'Response Time', value: '< 5min', description: 'Average incident response time' },
+        { metric: 'False Positives', value: '-85%', description: 'Reduction in false alerts' }
+      ],
+      timeline: '24 weeks',
+      client: 'HealthSecure Inc.',
+      industry: 'Healthcare',
+      caseStudyUrl: '#'
+    },
+    {
+      id: 'nlp-chatbot',
+      title: 'Intelligent Customer Service Bot',
+      category: 'ai-ml',
+      description: 'Advanced NLP-powered chatbot with multi-language support and sentiment analysis.',
+      image: '/placeholder-project-5.jpg',
+      technologies: ['Python', 'OpenAI GPT', 'BERT', 'Flask', 'React', 'PostgreSQL'],
+      features: [
+        'Natural language understanding',
+        'Multi-language support',
+        'Sentiment analysis',
+        'Knowledge base integration',
+        'Human handoff capability'
+      ],
+      results: [
+        { metric: 'Customer Satisfaction', value: '92%', description: 'Customer satisfaction score' },
+        { metric: 'Resolution Rate', value: '78%', description: 'First-contact resolution rate' },
+        { metric: 'Response Time', value: '< 2sec', description: 'Average response time' }
+      ],
+      timeline: '14 weeks',
+      client: 'ServicePro Solutions',
+      industry: 'Customer Service',
+      liveUrl: '#',
+      caseStudyUrl: '#'
+    },
+    {
+      id: 'microservices-architecture',
+      title: 'Microservices Architecture Redesign',
+      category: 'cloud-infrastructure',
+      description: 'Complete application modernization using microservices architecture and containerization.',
+      image: '/placeholder-project-6.jpg',
+      technologies: ['Node.js', 'Docker', 'Kubernetes', 'GraphQL', 'MongoDB', 'RabbitMQ'],
+      features: [
+        'Service decomposition',
+        'API gateway implementation',
+        'Event-driven architecture',
+        'Auto-scaling services',
+        'Monitoring & logging'
+      ],
+      results: [
+        { metric: 'Scalability', value: '500%', description: 'Increased system scalability' },
+        { metric: 'Development Speed', value: '3x Faster', description: 'Feature development velocity' },
+        { metric: 'System Reliability', value: '99.95%', description: 'System uptime achieved' }
+      ],
+      timeline: '18 weeks',
+      client: 'ScaleUp Technologies',
+      industry: 'SaaS',
+      caseStudyUrl: '#'
+    }
   ];
 
-  const filteredItems = filter === 'All' ? portfolioItems : portfolioItems.filter(item => item.category === filter);
+  const filteredProjects = activeCategory === 'all' 
+    ? projects 
+    : projects.filter(project => project.category === activeCategory);
 
-  // Split "Our Portfolio" into letters for glitch animation
-  const titleLetters = "Our Portfolio".split('');
-  // Split "Showcasing Excellence." into words for typewriter-heavy animation
-  const sloganWords = ["Showcasing", "Excellence."];
+  const toggleProjectDetails = (projectId: string) => {
+    setExpandedProject(expandedProject === projectId ? null : projectId);
+  };
+
+  const stats = [
+    { label: 'Projects Completed', value: '500+', icon: <Award size={24} className="text-cyan-400" /> },
+    { label: 'Happy Clients', value: '200+', icon: <Users size={24} className="text-cyan-400" /> },
+    { label: 'Success Rate', value: '99%', icon: <Target size={24} className="text-cyan-400" /> },
+    { label: 'Years Experience', value: '5+', icon: <Calendar size={24} className="text-cyan-400" /> }
+  ];
 
   return (
     <div className="min-h-screen bg-black/95 text-white">
-     {/* Hero Section */}
-      <section className="relative bg-black/90 backdrop-blur-xl pt-48 pb-20 overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative bg-black/90 backdrop-blur-xl pt-40 pb-20 overflow-hidden">
         <div className="h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 absolute top-0 left-0 right-0"></div>
-        {/* Radial Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-radial from-cyan-500/10 via-transparent to-transparent"></div>
-        {/* Circuit Pattern Overlay */}
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M10 10h40v40H10z' stroke='%2306b6d4' stroke-width='1'/%3E%3Cpath d='M20 20h20v20H20z' stroke='%2306b6d4' stroke-width='1'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%2306b6d4'/%3E%3C/svg%3E")`,
-            backgroundRepeat: 'repeat',
-          }}
-        ></div>
-        {/* Interactive Particle Background */}
-        <div className="absolute inset-0 pointer-events-auto">
-          {[...Array(12)].map((_, i) => (
+        
+        {/* Particle Background */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(15)].map((_, i) => (
             <div
               key={i}
-              className="absolute bg-cyan-300/30 rounded-full particle-orbit hover:bg-cyan-300/70 transition-all duration-300"
+              className="absolute bg-cyan-300/20 rounded-full particle"
               style={{
-                width: `${Math.random() * 4 + 3}px`,
-                height: `${Math.random() * 4 + 3}px`,
+                width: `${Math.random() * 4 + 2}px`,
+                height: `${Math.random() * 4 + 2}px`,
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
-                animation: `float-orbit ${Math.random() * 8 + 5}s linear 1`,
+                animation: `float ${Math.random() * 10 + 6}s infinite`,
                 animationDelay: `${Math.random() * 5}s`,
-                willChange: 'transform',
+                willChange: 'transform, opacity',
               }}
             />
           ))}
         </div>
-        {/* 3D Hexagonal Grid */}
-        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 hidden lg:block">
-          <div className="hex-grid hex-rotate">
-            {[...Array(7)].map((_, i) => (
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6">
+            <span className="bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text text-transparent">
+              OUR
+            </span>{' '}
+            <span className="text-cyan-400">
+              PORTFOLIO
+            </span>
+          </h1>
+          <div className="w-32 h-1 bg-gradient-to-r from-cyan-500 to-cyan-300 mx-auto mb-8"></div>
+          <p className="text-xl md:text-2xl text-cyan-300/70 max-w-4xl mx-auto leading-relaxed">
+            Showcase of cutting-edge solutions that have transformed businesses and driven measurable results across industries.
+          </p>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-black/90 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
               <div
-                key={i}
-                className="hex"
-                style={{
-                  position: 'absolute',
-                  width: '60px',
-                  height: '104px',
-                  background: 'none',
-                  border: '1px solid rgba(6, 182, 212, 0.3)',
-                  clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                  top: `${(i % 2) * 52}px`,
-                  left: `${Math.floor(i / 2) * 90}px`,
-                  animationDelay: `${i * 0.2}s`,
-                }}
+                key={stat.label}
+                className="group bg-black/80 border border-cyan-500/20 p-6 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] text-center"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="hex-inner neon-pulse" style={{ animationDelay: `${i * 0.2 + 0.5}s` }}></div>
+                <div className="flex justify-center mb-3">{stat.icon}</div>
+                <div className="text-3xl font-black text-cyan-300 group-hover:text-cyan-100 mb-2 transition-colors duration-300">
+                  {stat.value}
+                </div>
+                <div className="text-cyan-300/70 text-sm uppercase tracking-wide">{stat.label}</div>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
               </div>
             ))}
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text text-transparent glitch">
-            {titleLetters.map((letter, index) => (
-              <span
-                key={index}
-                data-text={letter}
-                style={{ animationDelay: `${index * 0.1}s`, display: letter === ' ' ? 'inline-block' : 'inline' }}
-              >
-                {letter}
-              </span>
-            ))}
-          </h1>
-          <p className="mt-4 text-lg md:text-xl text-cyan-300/70 max-w-lg mx-auto">
-            <span className="inline-block typewriter-heavy">
-              {sloganWords.map((word, index) => (
-                <span
-                  key={index}
-                  style={{ animationDelay: `${index * 0.5 + 1.5}s`, display: 'inline-block', marginRight: '0.2em' }}
-                >
-                  {word}
-                </span>
-              ))}
-            </span>
-          </p>
-          <p className="mt-2 text-cyan-300/70 max-w-lg mx-auto">
-            Dive into our portfolio of groundbreaking projects, crafted with cutting-edge technology and visionary design.
-          </p>
-         
-        </div>
       </section>
 
-      {/* Portfolio Items Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
+      {/* Category Filter */}
+      <section className="py-8 bg-black/90 backdrop-blur-xl border-b border-cyan-500/20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cyan-400 text-center mb-8">Our Projects</h2>
-          <div className="flex justify-center mb-8 space-x-4 flex-wrap gap-2">
-            {['All', 'Web', 'Mobile', 'AI', 'Cloud', 'Cybersecurity', 'DevOps'].map((category) => (
+          <div className="flex flex-wrap justify-center gap-4">
+            {categories.map((category) => (
               <button
-                key={category}
-                onClick={() => setFilter(category as any)}
-                className={`px-4 py-2 text-sm font-bold uppercase tracking-widest border border-cyan-500/20 rounded-full transition-all duration-300 ${
-                  filter === category
-                    ? 'bg-cyan-500/20 text-cyan-300 shadow-[0_0_15px_rgba(0,255,255,0.5)]'
-                    : 'text-cyan-300/70 hover:text-cyan-300 hover:border-cyan-500/50'
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                className={`px-6 py-3 rounded-lg font-bold text-sm uppercase tracking-wider transition-all duration-300 ${
+                  activeCategory === category.id
+                    ? 'bg-gradient-to-r from-cyan-500 to-cyan-400 text-black shadow-[0_0_20px_rgba(0,255,255,0.5)]'
+                    : 'bg-black/80 border border-cyan-500/30 text-cyan-300 hover:border-cyan-500/50 hover:text-cyan-100'
                 }`}
               >
-                {category}
+                {category.icon}
+                <span className="ml-2">{category.name}</span>
+                <span className={`ml-2 px-2 py-1 rounded-full text-xs font-black ${
+                  activeCategory === category.id 
+                    ? 'bg-black/20 text-black' 
+                    : 'bg-cyan-500/20 text-cyan-400'
+                }`}>
+                  {category.id === 'all' ? projects.length : category.count}
+                </span>
               </button>
             ))}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredItems.map((item, index) => (
-              <div
-                key={item.title}
-                className="group relative bg-black/80 border border-cyan-500/20 p-6 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] reveal"
-                style={{ animationDelay: `${index * 0.15}s` }}
-              >
-                <div className="overflow-hidden rounded-lg mb-4">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-48 object-cover transform group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="flex justify-center mb-4">
-                  <Briefcase size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
-                </div>
-                <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 text-center transition-colors duration-300">
-                  {item.title}
-                </h3>
-                <ul className="mt-2 text-cyan-300/70 text-center list-disc list-inside">
-                  {item.descriptionPoints.map((point, pointIndex) => (
-                    <li key={pointIndex}>{point}</li>
-                  ))}
-                </ul>
-                <div className="mt-4 flex flex-wrap justify-center gap-2">
-                  {item.technologies.map((tech, techIndex) => (
-                    <span
-                      key={techIndex}
-                      className="px-3 py-1 text-sm text-cyan-300/70 bg-black/50 rounded-full border border-cyan-500/20"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-6 flex justify-center gap-4">
-                  <a href={item.liveUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center text-cyan-300 hover:text-cyan-100 transition-colors duration-300">
-                    <ExternalLink size={20} className="mr-1" />
-                    <span className="font-bold uppercase tracking-widest text-sm relative">
-                      Live Demo
-                      <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
-                    </span>
-                  </a>
-                  <a href={item.codeUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center text-cyan-300 hover:text-cyan-100 transition-colors duration-300">
-                    <Github size={20} className="mr-1" />
-                    <span className="font-bold uppercase tracking-widest text-sm relative">
-                      Code Repo
-                      <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
-                    </span>
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
+      {/* Projects Grid */}
+      <section className="py-8">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cyan-400 text-center mb-8">What Our Clients Say</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {filteredProjects.map((project, index) => (
               <div
-                key={index}
-                className="relative bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] transition-all duration-300 reveal"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                key={project.id}
+                className="group relative bg-black/80 border border-cyan-500/20 rounded-lg overflow-hidden hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)]"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <Quote size={24} className="text-cyan-300 mb-4" />
-                <p className="text-cyan-300/70 italic">"{testimonial.quote}"</p>
-                <p className="mt-4 text-cyan-300 font-bold">{testimonial.author}</p>
-                <p className="text-cyan-300/70 text-sm">{testimonial.role}</p>
+                {/* Project Image */}
+                <div className="relative h-64 bg-gradient-to-br from-cyan-500/20 to-cyan-300/20 flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-black/60 z-10"></div>
+                  <div className="relative z-20 text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-cyan-500/30 to-cyan-300/30 rounded-full flex items-center justify-center border-2 border-cyan-500/50">
+                      <Briefcase size={32} className="text-cyan-300" />
+                    </div>
+                    <p className="text-cyan-300/70 text-sm uppercase tracking-wide">{project.industry}</p>
+                  </div>
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"></div>
+                </div>
+
+                <div className="p-8">
+                  {/* Project Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <span className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-3 py-1 rounded-full text-xs font-bold uppercase">
+                          {categories.find(cat => cat.id === project.category)?.name.split(' ')[0] || 'Project'}
+                        </span>
+                        <span className="text-cyan-400 font-semibold text-sm">{project.timeline}</span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300 mb-2">
+                        {project.title}
+                      </h3>
+                      <p className="text-cyan-300/70 mb-4 leading-relaxed">{project.description}</p>
+                    </div>
+                  </div>
+
+                  {/* Quick Stats */}
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    {project.results.slice(0, 3).map((result, idx) => (
+                      <div key={idx} className="text-center">
+                        <div className="text-lg font-black text-cyan-400 mb-1">{result.value}</div>
+                        <div className="text-xs text-cyan-300/70 uppercase tracking-wide">{result.metric}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Technologies */}
+                  <div className="mb-6">
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.slice(0, 4).map((tech, idx) => (
+                        <span key={idx} className="bg-black/60 border border-cyan-500/30 px-3 py-1 rounded text-cyan-300/70 text-xs">
+                          {tech}
+                        </span>
+                      ))}
+                      {project.technologies.length > 4 && (
+                        <span className="text-cyan-400 text-xs font-semibold">+{project.technologies.length - 4} more</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={() => toggleProjectDetails(project.id)}
+                      className="text-cyan-300 hover:text-cyan-100 font-bold text-sm uppercase tracking-wider flex items-center transition-colors duration-300"
+                    >
+                      {expandedProject === project.id ? (
+                        <>Less Details <ChevronUp size={16} className="ml-2" /></>
+                      ) : (
+                        <>View Details <ChevronDown size={16} className="ml-2" /></>
+                      )}
+                    </button>
+                    
+                    <div className="flex space-x-3">
+                      {project.liveUrl && (
+                        <button className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)] flex items-center">
+                          <ExternalLink size={14} className="mr-2" />
+                          Live Demo
+                        </button>
+                      )}
+                      {project.caseStudyUrl && (
+                        <button className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)] flex items-center">
+                          <Award size={14} className="mr-2" />
+                          Case Study
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Expanded Details */}
+                  {expandedProject === project.id && (
+                    <div className="mt-8 pt-6 border-t border-cyan-500/20">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Features & Technologies */}
+                        <div>
+                          <h5 className="text-cyan-300 font-semibold mb-4 uppercase tracking-wide text-sm">Key Features</h5>
+                          <div className="space-y-3 mb-6">
+                            {project.features.map((feature, idx) => (
+                              <div key={idx} className="flex items-center text-cyan-300/70 text-sm">
+                                <CheckCircle size={14} className="text-cyan-400 mr-3 flex-shrink-0" />
+                                {feature}
+                              </div>
+                            ))}
+                          </div>
+                          
+                          <h5 className="text-cyan-300 font-semibold mb-3 uppercase tracking-wide text-sm">Technologies Used</h5>
+                          <div className="flex flex-wrap gap-2">
+                            {project.technologies.map((tech, idx) => (
+                              <span key={idx} className="bg-black/60 border border-cyan-500/30 px-3 py-2 rounded text-cyan-300/70 text-sm">
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Results & Client Info */}
+                        <div>
+                          <h5 className="text-cyan-300 font-semibold mb-4 uppercase tracking-wide text-sm">Project Results</h5>
+                          <div className="space-y-4 mb-6">
+                            {project.results.map((result, idx) => (
+                              <div key={idx} className="bg-black/60 border border-cyan-500/30 p-4 rounded-lg">
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="text-cyan-300/70 text-sm">{result.metric}</span>
+                                  <span className="text-cyan-400 font-bold text-lg">{result.value}</span>
+                                </div>
+                                <p className="text-cyan-300/60 text-xs">{result.description}</p>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-300/10 border border-cyan-500/30 p-4 rounded-lg">
+                            <h6 className="text-cyan-300 font-semibold text-sm mb-2">Client Information</h6>
+                            <p className="text-cyan-300/70 text-sm mb-1"><strong>Company:</strong> {project.client}</p>
+                            <p className="text-cyan-300/70 text-sm mb-1"><strong>Industry:</strong> {project.industry}</p>
+                            <p className="text-cyan-300/70 text-sm"><strong>Timeline:</strong> {project.timeline}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-black text-cyan-400 tracking-tight">
-            Ready to Build Your Next Project?
-          </h2>
-          <p className="mt-4 text-lg text-cyan-300/70 max-w-2xl mx-auto">
-            Contact us today to discuss how we can bring your vision to life with our expertise.
-          </p>
-          <Link href="/contact">
-            <button className="mt-8 relative group bg-transparent border-2 border-cyan-400 px-8 py-3 text-cyan-300 font-black text-sm uppercase tracking-widest overflow-hidden transition-all duration-500 hover:text-black shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)] hover:shadow-[0_0_35px_rgba(0,255,255,1),0_0_70px_rgba(0,255,255,0.6)] neon-pulse hover:scale-110 hover:rotate-5">
-              <span className="relative z-10 flex items-center justify-center space-x-2">
-                <span>Hire me</span>
-                <ArrowRight size={16} />
-              </span>
-              <div className="absolute inset-0 bg-cyan-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-              <div className="absolute inset-0 border-2 border-cyan-400 transform scale-110 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300"></div>
-            </button>
-          </Link>
+      {/* Call to Action */}
+      <section className="py-20 bg-black/90 backdrop-blur-xl">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <div className="bg-black/80 border border-cyan-500/20 p-12 rounded-lg shadow-[0_0_25px_rgba(0,255,255,0.3)]">
+            <h2 className="text-3xl font-black text-cyan-400 mb-6">Ready to Build Something Amazing?</h2>
+            <p className="text-cyan-300/70 text-lg mb-8 max-w-2xl mx-auto">
+              Let's discuss your project and create a solution that drives real business results. Join our portfolio of successful clients.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-8 py-4 rounded-lg font-bold uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]">
+                Start Your Project
+              </button>
+              <button className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-8 py-4 rounded-lg font-bold uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]">
+                View All Case Studies
+              </button>
+            </div>
+          </div>
         </div>
       </section>
+
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+          50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+        
+        .particle {
+          filter: blur(0.5px);
+        }
+      `}</style>
     </div>
   );
 };

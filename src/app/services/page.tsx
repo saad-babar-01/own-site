@@ -1,472 +1,459 @@
-"use client";
-import React from 'react';
-import { Code, Zap, Shield, Cpu, Smartphone, GitBranch, Briefcase, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+
+"use client"
+import React, { useState } from 'react';
+import { Brain, Cloud, Shield, Code, Database, Zap, Users, Target, Eye, Layers, Award, ArrowRight, CheckCircle, Star, Briefcase, Settings, Globe, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Service {
+  id: string;
   title: string;
   description: string;
   icon: React.ReactNode;
+  features: string[];
+  technologies: string[];
+  deliverables: string[];
+  timeline: string;
+  price: string;
 }
 
-interface PortfolioItem {
+interface ServiceCategory {
   title: string;
   description: string;
+  services: Service[];
 }
 
-interface TechStack {
-  name: string;
+interface ProcessStep {
+  title: string;
+  description: string;
   icon: React.ReactNode;
+  duration: string;
 }
 
 const Services: React.FC = () => {
-  const services: Service[] = [
-    {
+  const [activeCategory, setActiveCategory] = useState('ai-solutions');
+  const [expandedService, setExpandedService] = useState<string | null>(null);
+
+  const serviceCategories: Record<string, ServiceCategory> = {
+    'ai-solutions': {
+      title: 'AI & Machine Learning',
+      description: 'Transform your business with intelligent automation and predictive analytics',
+      services: [
+        {
+          id: 'ai-analytics',
+          title: 'AI-Powered Analytics',
+          description: 'Advanced data analytics with machine learning algorithms for predictive insights and automated decision-making.',
+          icon: <Brain size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+          features: [
+            'Real-time data processing',
+            'Predictive modeling',
+            'Automated reporting',
+            'Custom dashboards',
+            'AI-driven insights'
+          ],
+          technologies: ['TensorFlow', 'PyTorch', 'Apache Spark', 'Kubernetes', 'Python'],
+          deliverables: [
+            'Custom AI models',
+            'Analytics dashboard',
+            'API documentation',
+            'Training materials',
+            '6-month support'
+          ],
+          timeline: '12-16 weeks',
+          price: 'Starting from $75,000'
+        },
+        {
+          id: 'nlp-solutions',
+          title: 'Natural Language Processing',
+          description: 'Intelligent text analysis, chatbots, and language understanding systems for enhanced customer experience.',
+          icon: <Database size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+          features: [
+            'Sentiment analysis',
+            'Intelligent chatbots',
+            'Document processing',
+            'Multi-language support',
+            'Voice recognition'
+          ],
+          technologies: ['OpenAI GPT', 'BERT', 'spaCy', 'Transformers', 'Azure Cognitive'],
+          deliverables: [
+            'NLP models',
+            'Chatbot integration',
+            'API endpoints',
+            'Admin panel',
+            'Performance metrics'
+          ],
+          timeline: '10-14 weeks',
+          price: 'Starting from $60,000'
+        }
+      ]
+    },
+    'cloud-services': {
+      title: 'Cloud & Infrastructure',
+      description: 'Scalable cloud solutions for modern enterprises',
+      services: [
+        {
+          id: 'cloud-migration',
+          title: 'Cloud Migration & Optimization',
+          description: 'Seamless migration to cloud platforms with performance optimization and cost reduction strategies.',
+          icon: <Cloud size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+          features: [
+            'Multi-cloud strategy',
+            'Cost optimization',
+            'Security compliance',
+            'Performance monitoring',
+            'Disaster recovery'
+          ],
+          technologies: ['AWS', 'Azure', 'Google Cloud', 'Docker', 'Terraform'],
+          deliverables: [
+            'Migration roadmap',
+            'Cloud architecture',
+            'Monitoring setup',
+            'Security configuration',
+            'Documentation'
+          ],
+          timeline: '8-12 weeks',
+          price: 'Starting from $45,000'
+        },
+        {
+          id: 'microservices',
+          title: 'Microservices Architecture',
+          description: 'Design and implement scalable microservices architecture for high-performance applications.',
+          icon: <Layers size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+          features: [
+            'Service decomposition',
+            'API gateway setup',
+            'Load balancing',
+            'Service mesh',
+            'Auto-scaling'
+          ],
+          technologies: ['Kubernetes', 'Istio', 'Docker', 'Node.js', 'GraphQL'],
+          deliverables: [
+            'Microservices design',
+            'Container orchestration',
+            'API documentation',
+            'Monitoring dashboard',
+            'Deployment pipeline'
+          ],
+          timeline: '14-18 weeks',
+          price: 'Starting from $85,000'
+        }
+      ]
+    },
+    'web-development': {
       title: 'Web Development',
-      description: 'Build cutting-edge, responsive websites with modern frameworks and technologies tailored to your business needs.',
-      icon: <Code size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      description: 'Modern web applications with cutting-edge technologies',
+      services: [
+        {
+          id: 'full-stack-dev',
+          title: 'Full-Stack Development',
+          description: 'End-to-end web application development with modern frameworks and responsive design.',
+          icon: <Code size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+          features: [
+            'Responsive design',
+            'Progressive web apps',
+            'Real-time features',
+            'SEO optimization',
+            'Performance tuning'
+          ],
+          technologies: ['React', 'Next.js', 'Node.js', 'PostgreSQL', 'TypeScript'],
+          deliverables: [
+            'Web application',
+            'Admin dashboard',
+            'Mobile responsiveness',
+            'SEO setup',
+            'Deployment guide'
+          ],
+          timeline: '10-16 weeks',
+          price: 'Starting from $35,000'
+        },
+        {
+          id: 'ecommerce-platform',
+          title: 'E-Commerce Platforms',
+          description: 'Custom e-commerce solutions with advanced payment processing and inventory management.',
+          icon: <Briefcase size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+          features: [
+            'Payment gateway integration',
+            'Inventory management',
+            'Order processing',
+            'Customer analytics',
+            'Multi-vendor support'
+          ],
+          technologies: ['Shopify Plus', 'WooCommerce', 'Stripe', 'PayPal', 'AWS'],
+          deliverables: [
+            'E-commerce platform',
+            'Payment integration',
+            'Inventory system',
+            'Analytics dashboard',
+            'Mobile app'
+          ],
+          timeline: '12-20 weeks',
+          price: 'Starting from $50,000'
+        }
+      ]
     },
-    {
-      title: 'Cloud Solutions',
-      description: 'Leverage scalable cloud infrastructure to optimize performance, security, and cost-efficiency for your applications.',
-      icon: <Zap size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
-    },
-    {
+    'cybersecurity': {
       title: 'Cybersecurity',
-      description: 'Protect your digital assets with advanced security protocols, penetration testing, and real-time monitoring.',
-      icon: <Shield size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      description: 'Enterprise-grade security solutions and compliance',
+      services: [
+        {
+          id: 'security-audit',
+          title: 'Security Audit & Penetration Testing',
+          description: 'Comprehensive security assessment with vulnerability testing and compliance verification.',
+          icon: <Shield size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+          features: [
+            'Vulnerability assessment',
+            'Penetration testing',
+            'Compliance audit',
+            'Security recommendations',
+            'Risk assessment'
+          ],
+          technologies: ['Nessus', 'Metasploit', 'Burp Suite', 'OWASP', 'Kali Linux'],
+          deliverables: [
+            'Security audit report',
+            'Vulnerability list',
+            'Risk assessment',
+            'Remediation plan',
+            'Compliance checklist'
+          ],
+          timeline: '4-6 weeks',
+          price: 'Starting from $25,000'
+        },
+        {
+          id: 'soc-implementation',
+          title: 'SOC Implementation',
+          description: 'Security Operations Center setup with 24/7 monitoring and incident response capabilities.',
+          icon: <Eye size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+          features: [
+            '24/7 monitoring',
+            'Incident response',
+            'Threat intelligence',
+            'SIEM integration',
+            'Automated alerts'
+          ],
+          technologies: ['Splunk', 'ELK Stack', 'CrowdStrike', 'Palo Alto', 'IBM QRadar'],
+          deliverables: [
+            'SOC infrastructure',
+            'Monitoring dashboard',
+            'Incident playbooks',
+            'Staff training',
+            'Ongoing support'
+          ],
+          timeline: '16-24 weeks',
+          price: 'Starting from $120,000'
+        }
+      ]
+    }
+  };
+
+  const processSteps: ProcessStep[] = [
+    {
+      title: 'Discovery & Planning',
+      description: 'In-depth analysis of your requirements, goals, and technical constraints.',
+      icon: <Users size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      duration: '1-2 weeks'
     },
     {
-      title: 'AI Integration',
-      description: 'Enhance your products with AI-driven features, including machine learning models and intelligent automation.',
-      icon: <Cpu size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      title: 'Architecture Design',
+      description: 'Detailed technical architecture and project roadmap development.',
+      icon: <Layers size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      duration: '2-3 weeks'
     },
     {
-      title: 'Mobile App Development',
-      description: 'Create powerful, user-friendly mobile apps for iOS and Android with seamless performance and modern design.',
-      icon: <Smartphone size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      title: 'Development & Integration',
+      description: 'Agile development with continuous integration and testing.',
+      icon: <Code size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      duration: '8-16 weeks'
     },
     {
-      title: 'DevOps Services',
-      description: 'Streamline your development pipeline with CI/CD, automation, and infrastructure management for faster delivery.',
-      icon: <GitBranch size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      title: 'Testing & Optimization',
+      description: 'Comprehensive testing, performance optimization, and security validation.',
+      icon: <Target size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      duration: '2-4 weeks'
     },
+    {
+      title: 'Deployment & Support',
+      description: 'Production deployment with ongoing monitoring and support.',
+      icon: <Zap size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+      duration: 'Ongoing'
+    }
   ];
 
-  const portfolioItems: PortfolioItem[] = [
-    {
-      title: 'E-Commerce Platform',
-      description: 'A scalable online store with advanced payment integration and real-time analytics.',
-    },
-    {
-      title: 'Healthcare App',
-      description: 'A secure mobile app for patient management with AI-driven diagnostics.',
-    },
-  ];
+  const toggleServiceDetails = (serviceId: string) => {
+    setExpandedService(expandedService === serviceId ? null : serviceId);
+  };
 
-  const techStack: TechStack[] = [
-    { name: 'React', icon: <Code size={24} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
-    { name: 'Next.js', icon: <Code size={24} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
-    { name: 'AWS', icon: <Zap size={24} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
-    { name: 'TensorFlow', icon: <Cpu size={24} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
-  ];
-
-  // Split "Our Services" into letters for reveal animation
-  const titleLetters = "Our Services".split('');
-  // Split "Innovate. Transform. Succeed." into words for scale-in animation
-  const sloganWords = ["Innovate.", "Transform.", "Succeed."];
+  const currentServices = serviceCategories[activeCategory]?.services || [];
 
   return (
     <div className="min-h-screen bg-black/95 text-white">
       {/* Hero Section */}
       <section className="relative bg-black/90 backdrop-blur-xl pt-40 pb-20 overflow-hidden">
         <div className="h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 absolute top-0 left-0 right-0"></div>
+        
         {/* Particle Background */}
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(8)].map((_, i) => (
+          {[...Array(12)].map((_, i) => (
             <div
               key={i}
-              className="absolute bg-cyan-300/30 rounded-full particle-orbit"
+              className="absolute bg-cyan-300/20 rounded-full particle"
               style={{
-                width: `${Math.random() * 3 + 2}px`,
-                height: `${Math.random() * 3 + 2}px`,
+                width: `${Math.random() * 4 + 2}px`,
+                height: `${Math.random() * 4 + 2}px`,
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
-                animation: `float-orbit ${Math.random() * 6 + 4}s linear 1`,
-                animationDelay: `${Math.random() * 4}s`,
-                willChange: 'transform',
+                animation: `float ${Math.random() * 10 + 6}s infinite`,
+                animationDelay: `${Math.random() * 5}s`,
+                willChange: 'transform, opacity',
               }}
             />
           ))}
         </div>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-8">
-          <div className="flex-1 text-center lg:text-left">
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text text-transparent">
-              {titleLetters.map((letter, index) => (
-                <span
-                  key={index}
-                  className="reveal"
-                  style={{ animationDelay: `${index * 0.1}s`, display: letter === ' ' ? 'inline-block' : 'inline' }}
-                >
-                  {letter}
-                </span>
-              ))}
-            </h1>
-            <p className="mt-4 text-lg md:text-xl text-cyan-300/70 max-w-lg">
-              <span className="inline-block">
-                {sloganWords.map((word, index) => (
-                  <span
-                    key={index}
-                    className="scale-in"
-                    style={{ animationDelay: `${index * 0.3 + 1.2}s`, display: 'inline-block', marginRight: '0.2em' }}
-                  >
-                    {word}
-                  </span>
-                ))}
-              </span>
-            </p>
-            <p className="mt-2 text-cyan-300/70 max-w-lg">
-              Discover our range of innovative solutions designed to empower your business with cutting-edge technology and unparalleled expertise.
-            </p>
-           
-          </div>
-          <div className="flex-1 hidden lg:block">
-            <div
-              className="relative rotate-slow"
-              style={{
-                clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-                animationDelay: '0s',
-              }}
-            >
-              <svg
-                className="w-full h-64 text-cyan-300/50 shadow-[0_0_15px_rgba(0,255,255,0.4)]"
-                viewBox="0 0 200 200"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6">
+            <span className="bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text text-transparent">
+              OUR
+            </span>{' '}
+            <span className="text-cyan-400">
+              SERVICES
+            </span>
+          </h1>
+          <div className="w-32 h-1 bg-gradient-to-r from-cyan-500 to-cyan-300 mx-auto mb-8"></div>
+          <p className="text-xl md:text-2xl text-cyan-300/70 max-w-4xl mx-auto leading-relaxed">
+            Comprehensive technology solutions designed to accelerate your digital transformation and drive measurable business results.
+          </p>
+        </div>
+      </section>
+
+      {/* Service Categories Navigation */}
+      <section className="py-8 bg-black/90 backdrop-blur-xl border-b border-cyan-500/20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex flex-wrap justify-center gap-4">
+            {Object.entries(serviceCategories).map(([key, category]) => (
+              <button
+                key={key}
+                onClick={() => setActiveCategory(key)}
+                className={`px-6 py-3 rounded-lg font-bold text-sm uppercase tracking-wider transition-all duration-300 ${
+                  activeCategory === key
+                    ? 'bg-gradient-to-r from-cyan-500 to-cyan-400 text-black shadow-[0_0_20px_rgba(0,255,255,0.5)]'
+                    : 'bg-black/80 border border-cyan-500/30 text-cyan-300 hover:border-cyan-500/50 hover:text-cyan-100'
+                }`}
               >
-                {/* Hexagonal outer path */}
-                <path
-                  d="M100 20 L170 60 L170 140 L100 180 L30 140 L30 60 Z"
-                  className="pulse-path"
-                  strokeDasharray="400"
-                  strokeDashoffset="400"
-                  style={{ animationDelay: '0s' }}
-                />
-                {/* Inner hexagonal path */}
-                <path
-                  d="M100 40 L150 70 L150 130 L100 160 L50 130 L50 70 Z"
-                  className="pulse-path"
-                  strokeDasharray="300"
-                  strokeDashoffset="300"
-                  style={{ animationDelay: '0.5s' }}
-                />
-                {/* Connecting lines */}
-                <path
-                  d="M100 20 L100 40 M170 60 L150 70 M170 140 L150 130 M100 180 L100 160 M30 140 L50 130 M30 60 L50 70"
-                  className="pulse-path"
-                  strokeDasharray="200"
-                  strokeDashoffset="200"
-                  style={{ animationDelay: '1s' }}
-                />
-                {/* Nodes */}
-                <circle cx="100" cy="20" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '1.5s' }} />
-                <circle cx="170" cy="60" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '1.7s' }} />
-                <circle cx="170" cy="140" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '1.9s' }} />
-                <circle cx="100" cy="180" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '2.1s' }} />
-                <circle cx="30" cy="140" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '2.3s' }} />
-                <circle cx="30" cy="60" r="4" fill="cyan-300/70" className="neon-pulse" style={{ animationDelay: '2.5s' }} />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Web Development Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-8">
-            <div className="flex-1">
-              <div className="flex justify-center lg:justify-start mb-4">{services[0].icon}</div>
-              <h2 className="text-3xl font-black text-cyan-400 text-center lg:text-left">Web Development</h2>
-              <p className="mt-4 text-cyan-300/70">
-                Our web development services deliver high-performance, responsive, and visually stunning websites. We specialize in modern frameworks like React, Next.js, and Angular, ensuring your site is fast, secure, and scalable.
-              </p>
-              <ul className="mt-4 space-y-2 text-cyan-300/70">
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Custom website design and development</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>E-commerce solutions</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>SEO optimization</span>
-                </li>
-              </ul>
-              <Link href="/contact" className="group inline-block mt-6">
-                <span className="text-cyan-300 font-bold uppercase tracking-widest relative">
-                  Learn More
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
-                </span>
-              </Link>
-            </div>
-            <div className="flex-1 hidden lg:block">
-              <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
-                <img src="/placeholder-webdev.jpg" alt="Web Development" className="w-full h-64 object-cover rounded" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Cloud Solutions Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row-reverse items-center gap-8">
-            <div className="flex-1">
-              <div className="flex justify-center lg:justify-start mb-4">{services[1].icon}</div>
-              <h2 className="text-3xl font-black text-cyan-400 text-center lg:text-left">Cloud Solutions</h2>
-              <p className="mt-4 text-cyan-300/70">
-                Our cloud solutions provide scalable, secure, and cost-effective infrastructure. We work with leading platforms like AWS, Azure, and Google Cloud to optimize your operations.
-              </p>
-              <ul className="mt-4 space-y-2 text-cyan-300/70">
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Cloud migration and management</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Serverless architecture</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Cost optimization strategies</span>
-                </li>
-              </ul>
-              <Link href="/contact" className="group inline-block mt-6">
-                <span className="text-cyan-300 font-bold uppercase tracking-widest relative">
-                  Learn More
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
-                </span>
-              </Link>
-            </div>
-            <div className="flex-1 hidden lg:block">
-              <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
-                <img src="/placeholder-cloud.jpg" alt="Cloud Solutions" className="w-full h-64 object-cover rounded" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Cybersecurity Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-8">
-            <div className="flex-1">
-              <div className="flex justify-center lg:justify-start mb-4">{services[2].icon}</div>
-              <h2 className="text-3xl font-black text-cyan-400 text-center lg:text-left">Cybersecurity</h2>
-              <p className="mt-4 text-cyan-300/70">
-                Our cybersecurity services safeguard your business with advanced protection, including penetration testing, threat monitoring, and compliance solutions.
-              </p>
-              <ul className="mt-4 space-y-2 text-cyan-300/70">
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Penetration testing and audits</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Real-time threat monitoring</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Compliance with GDPR, HIPAA, etc.</span>
-                </li>
-              </ul>
-              <Link href="/contact" className="group inline-block mt-6">
-                <span className="text-cyan-300 font-bold uppercase tracking-widest relative">
-                  Learn More
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
-                </span>
-              </Link>
-            </div>
-            <div className="flex-1 hidden lg:block">
-              <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
-                <img src="/placeholder-cybersecurity.jpg" alt="Cybersecurity" className="w-full h-64 object-cover rounded" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Integration Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row-reverse items-center gap-8">
-            <div className="flex-1">
-              <div className="flex justify-center lg:justify-start mb-4">{services[3].icon}</div>
-              <h2 className="text-3xl font-black text-cyan-400 text-center lg:text-left">AI Integration</h2>
-              <p className="mt-4 text-cyan-300/70">
-                Transform your business with AI-driven solutions, from predictive analytics to intelligent automation and custom machine learning models.
-              </p>
-              <ul className="mt-4 space-y-2 text-cyan-300/70">
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Custom AI model development</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Predictive analytics and insights</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Automation workflows</span>
-                </li>
-              </ul>
-              <Link href="/contact" className="group inline-block mt-6">
-                <span className="text-cyan-300 font-bold uppercase tracking-widest relative">
-                  Learn More
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
-                </span>
-              </Link>
-            </div>
-            <div className="flex-1 hidden lg:block">
-              <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
-                <img src="/placeholder-ai.jpg" alt="AI Integration" className="w-full h-64 object-cover rounded" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mobile App Development Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-8">
-            <div className="flex-1">
-              <div className="flex justify-center lg:justify-start mb-4">{services[4].icon}</div>
-              <h2 className="text-3xl font-black text-cyan-400 text-center lg:text-left">Mobile App Development</h2>
-              <p className="mt-4 text-cyan-300/70">
-                We design and develop high-quality mobile applications for iOS and Android, ensuring seamless user experiences and robust performance.
-              </p>
-              <ul className="mt-4 space-y-2 text-cyan-300/70">
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Native and cross-platform apps</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>UI/UX design for mobile</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>App store optimization</span>
-                </li>
-              </ul>
-              <Link href="/contact" className="group inline-block mt-6">
-                <span className="text-cyan-300 font-bold uppercase tracking-widest relative">
-                  Learn More
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
-                </span>
-              </Link>
-            </div>
-            <div className="flex-1 hidden lg:block">
-              <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
-                <img src="/placeholder-mobile.jpg" alt="Mobile App Development" className="w-full h-64 object-cover rounded" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* DevOps Services Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row-reverse items-center gap-8">
-            <div className="flex-1">
-              <div className="flex justify-center lg:justify-start mb-4">{services[5].icon}</div>
-              <h2 className="text-3xl font-black text-cyan-400 text-center lg:text-left">DevOps Services</h2>
-              <p className="mt-4 text-cyan-300/70">
-                Our DevOps services enhance your development pipeline with automation, continuous integration, and infrastructure as code for faster, reliable deployments.
-              </p>
-              <ul className="mt-4 space-y-2 text-cyan-300/70">
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>CI/CD pipeline setup</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Infrastructure automation</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <ArrowRight size={16} className="text-cyan-300" />
-                  <span>Monitoring and logging</span>
-                </li>
-              </ul>
-              <Link href="/contact" className="group inline-block mt-6">
-                <span className="text-cyan-300 font-bold uppercase tracking-widest relative">
-                  Learn More
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
-                </span>
-              </Link>
-            </div>
-            <div className="flex-1 hidden lg:block">
-              <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
-                <img src="/placeholder-devops.jpg" alt="DevOps Services" className="w-full h-64 object-cover rounded" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Portfolio Highlights Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cyan-400 text-center mb-8">Portfolio Highlights</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {portfolioItems.map((item, index) => (
-              <div
-                key={item.title}
-                className="group relative bg-black/80 border border-cyan-500/20 p-6 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)]"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex justify-center mb-4">
-                  <Briefcase size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
-                </div>
-                <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 text-center transition-colors duration-300">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-cyan-300/70 text-center">{item.description}</p>
-                <Link href="/portfolio" className="group inline-block mt-6">
-                  <span className="text-cyan-300 font-bold uppercase tracking-widest relative">
-                    View Project
-                    <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
-                  </span>
-                </Link>
-              </div>
+                {category.title}
+              </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Technology Stack Section */}
-      <section className="py-16 bg-black/90 backdrop-blur-xl">
+      {/* Active Category Header */}
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-black text-cyan-400 mb-4">
+            {serviceCategories[activeCategory]?.title}
+          </h2>
+          <p className="text-xl text-cyan-300/70 max-w-3xl mx-auto">
+            {serviceCategories[activeCategory]?.description}
+          </p>
+        </div>
+      </section>
+
+      {/* Services Grid */}
+      <section className="py-8">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cyan-400 text-center mb-8">Our Technology Stack</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {techStack.map((tech, index) => (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {currentServices.map((service, index) => (
               <div
-                key={tech.name}
-                className="group relative bg-black/80 border border-cyan-500/20 p-6 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)]"
+                key={service.id}
+                className="group relative bg-black/80 border border-cyan-500/20 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)]"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="flex justify-center mb-4">{tech.icon}</div>
-                <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 text-center transition-colors duration-300">
-                  {tech.name}
-                </h3>
+                <div className="p-8">
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex items-center">
+                      <div className="mr-4">{service.icon}</div>
+                      <div>
+                        <h3 className="text-2xl font-bold text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300">
+                          {service.title}
+                        </h3>
+                        <p className="text-cyan-400 font-semibold text-sm mt-1">{service.timeline}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-cyan-300 font-bold text-lg">{service.price}</p>
+                    </div>
+                  </div>
+                  
+                  <p className="text-cyan-300/70 mb-6 leading-relaxed">{service.description}</p>
+                  
+                  <div className="space-y-4 mb-6">
+                    <div>
+                      <h4 className="text-cyan-300 font-semibold mb-2 uppercase tracking-wide text-sm">Key Features</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {service.features.slice(0, 4).map((feature, idx) => (
+                          <div key={idx} className="flex items-center text-cyan-300/70 text-sm">
+                            <CheckCircle size={14} className="text-cyan-400 mr-2 flex-shrink-0" />
+                            {feature}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center">
+                    <button
+                      onClick={() => toggleServiceDetails(service.id)}
+                      className="text-cyan-300 hover:text-cyan-100 font-bold text-sm uppercase tracking-wider flex items-center transition-colors duration-300"
+                    >
+                      {expandedService === service.id ? (
+                        <>Less Details <ChevronUp size={16} className="ml-2" /></>
+                      ) : (
+                        <>View Details <ChevronDown size={16} className="ml-2" /></>
+                      )}
+                    </button>
+                    <button className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)] flex items-center">
+                      <ArrowRight size={14} className="mr-2" />
+                      Get Quote
+                    </button>
+                  </div>
+
+                  {expandedService === service.id && (
+                    <div className="mt-6 pt-6 border-t border-cyan-500/20">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                          <h5 className="text-cyan-300 font-semibold mb-3 uppercase tracking-wide text-sm">Technologies</h5>
+                          <div className="space-y-2">
+                            {service.technologies.map((tech, idx) => (
+                              <div key={idx} className="bg-black/60 border border-cyan-500/30 px-3 py-1 rounded text-cyan-300/70 text-sm">
+                                {tech}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <h5 className="text-cyan-300 font-semibold mb-3 uppercase tracking-wide text-sm">Deliverables</h5>
+                          <div className="space-y-2">
+                            {service.deliverables.map((deliverable, idx) => (
+                              <div key={idx} className="flex items-center text-cyan-300/70 text-sm">
+                                <Award size={12} className="text-cyan-400 mr-2 flex-shrink-0" />
+                                {deliverable}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <h5 className="text-cyan-300 font-semibold mb-3 uppercase tracking-wide text-sm">All Features</h5>
+                          <div className="space-y-2">
+                            {service.features.map((feature, idx) => (
+                              <div key={idx} className="flex items-center text-cyan-300/70 text-sm">
+                                <CheckCircle size={12} className="text-cyan-400 mr-2 flex-shrink-0" />
+                                {feature}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
               </div>
             ))}
@@ -474,18 +461,111 @@ const Services: React.FC = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Development Process */}
       <section className="py-16 bg-black/90 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-black text-cyan-400 tracking-tight">
-            Ready to Transform Your Business?
-          </h2>
-          <p className="mt-4 text-lg text-cyan-300/70 max-w-2xl mx-auto">
-            Contact us today to discuss how our services can help you achieve your goals.
-          </p>
-         
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <h2 className="text-3xl font-black text-cyan-400 text-center mb-12">Our Development Process</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {processSteps.map((step, index) => (
+              <div
+                key={step.title}
+                className="group relative bg-black/80 border border-cyan-500/20 p-6 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)]"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="text-center">
+                  <div className="flex justify-center mb-4">{step.icon}</div>
+                  <div className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-3 py-1 rounded-full text-xs font-bold mb-4 inline-block">
+                    STEP {index + 1}
+                  </div>
+                  <h3 className="text-lg font-bold text-cyan-300 group-hover:text-cyan-100 mb-3 transition-colors duration-300">
+                    {step.title}
+                  </h3>
+                  <p className="text-cyan-300/70 text-sm mb-4 leading-relaxed">{step.description}</p>
+                  <div className="bg-black/60 border border-cyan-500/30 px-3 py-2 rounded text-cyan-400 font-semibold text-xs">
+                    {step.duration}
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* Why Choose Our Services */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <h2 className="text-3xl font-black text-cyan-400 text-center mb-12">Why Choose NEXUS LABS</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: <Star size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+                title: 'Expert Team',
+                description: 'Certified professionals with 10+ years of industry experience.'
+              },
+              {
+                icon: <Zap size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+                title: 'Rapid Delivery',
+                description: 'Agile methodology ensuring faster time-to-market.'
+              },
+              {
+                icon: <Shield size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+                title: 'Enterprise Security',
+                description: 'Bank-grade security and compliance built-in.'
+              },
+              {
+                icon: <Globe size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />,
+                title: '24/7 Support',
+                description: 'Round-the-clock technical support and maintenance.'
+              }
+            ].map((benefit, index) => (
+              <div
+                key={benefit.title}
+                className="group relative bg-black/80 border border-cyan-500/20 p-6 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] text-center"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="flex justify-center mb-4">{benefit.icon}</div>
+                <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 mb-3 transition-colors duration-300">
+                  {benefit.title}
+                </h3>
+                <p className="text-cyan-300/70 leading-relaxed">{benefit.description}</p>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact CTA */}
+      <section className="py-20 bg-black/90 backdrop-blur-xl">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <div className="bg-black/80 border border-cyan-500/20 p-12 rounded-lg shadow-[0_0_25px_rgba(0,255,255,0.3)]">
+            <h2 className="text-3xl font-black text-cyan-400 mb-6">Ready to Get Started?</h2>
+            <p className="text-cyan-300/70 text-lg mb-8 max-w-2xl mx-auto">
+              Let's discuss your project requirements and create a custom solution that drives your business forward.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-8 py-4 rounded-lg font-bold uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]">
+                Get Free Consultation
+              </button>
+              <button className="bg-gradient-to-r from-cyan-500 to-cyan-400 text-black px-8 py-4 rounded-lg font-bold uppercase tracking-wide transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-cyan-300 transform hover:scale-105 hover:shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)]">
+                Download Service Guide
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+          50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+        
+        .particle {
+          filter: blur(0.5px);
+        }
+      `}</style>
     </div>
   );
 };
