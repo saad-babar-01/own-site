@@ -1,452 +1,360 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { ArrowRight, ExternalLink, Github, X, ChevronLeft, ChevronRight, Zap, Code, Server, Cpu, Database, Cloud, Smartphone, Globe, Sparkles } from 'lucide-react';
+
+"use client";
+import React, { useState } from 'react';
+import { Briefcase, ArrowRight, Quote, ExternalLink, Github } from 'lucide-react';
 import Link from 'next/link';
 
 interface PortfolioItem {
-  id: number;
   title: string;
-  description: string;
-  fullDescription: string;
-  category: string;
+  descriptionPoints: string[];
   image: string;
+  category: 'Web' | 'Mobile' | 'AI' | 'Cloud' | 'Cybersecurity' | 'DevOps';
   technologies: string[];
-  liveUrl?: string;
-  githubUrl?: string;
-  caseStudy?: string;
-  features: string[];
-  challenges: string[];
-  results: string[];
+  liveUrl: string;
+  codeUrl: string;
+}
+
+interface Testimonial {
+  quote: string;
+  author: string;
+  role: string;
 }
 
 const Portfolio: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+  const [filter, setFilter] = useState<'All' | 'Web' | 'Mobile' | 'AI' | 'Cloud' | 'Cybersecurity' | 'DevOps'>('All');
 
   const portfolioItems: PortfolioItem[] = [
     {
-      id: 1,
-      title: 'NexCommerce Platform',
-      description: 'A scalable online store with advanced payment integration, inventory management, and personalized recommendations.',
-      fullDescription: 'NexCommerce is a revolutionary e-commerce platform built with cutting-edge technology to deliver exceptional shopping experiences. It features AI-powered product recommendations, seamless checkout processes, and robust inventory management systems.',
-      category: 'web',
-      image: '/placeholder-ecommerce.jpg',
-      technologies: ['React', 'Next.js', 'Node.js', 'MongoDB', 'Stripe', 'Tailwind CSS'],
-      liveUrl: 'https://nexcommerce-demo.vercel.app',
-      githubUrl: 'https://github.com/nexus-labs/nexcommerce',
-      caseStudy: '/case-studies/ecommerce',
-      features: [
-        'AI-powered product recommendations',
-        'Seamless multi-step checkout process',
-        'Real-time inventory management',
-        'Advanced admin dashboard',
-        'Multi-currency and language support'
+      title: 'E-Commerce Platform',
+      descriptionPoints: [
+        'Scalable online store with advanced payment integration.',
+        'Real-time analytics dashboard for business insights.',
+        'Responsive design for seamless shopping experiences.',
       ],
-      challenges: [
-        'Handling high traffic during flash sales',
-        'Integrating multiple payment gateways',
-        'Maintaining cart consistency across devices',
-        'Optimizing for mobile devices'
-      ],
-      results: [
-        '40% increase in conversion rate',
-        '60% faster page load times',
-        '99.9% uptime during holiday season',
-        '25% higher average order value'
-      ]
+      image: '/portfolio-ecommerce.jpg',
+      category: 'Web',
+      technologies: ['React', 'Next.js', 'Stripe', 'AWS'],
+      liveUrl: 'https://ecommerce-example.com',
+      codeUrl: 'https://github.com/nexuslabs/ecommerce-platform',
     },
     {
-      id: 2,
-      title: 'HealthNex AI Diagnostics',
-      description: 'A secure mobile app for patient management with AI diagnostics, appointment scheduling, and telehealth capabilities.',
-      fullDescription: 'HealthNex revolutionizes healthcare with AI-powered diagnostics and seamless patient management. This HIPAA-compliant platform enables remote consultations, automated preliminary diagnoses, and efficient healthcare resource management.',
-      category: 'mobile',
-      image: '/placeholder-healthcare.jpg',
-      technologies: ['React Native', 'Firebase', 'TensorFlow', 'Python', 'HIPAA Compliance'],
-      liveUrl: 'https://healthnex-app.com',
-      githubUrl: 'https://github.com/nexus-labs/healthnex',
-      caseStudy: '/case-studies/healthcare',
-      features: [
-        'AI-powered symptom checker and preliminary diagnosis',
-        'Secure video consultations with healthcare providers',
-        'Digital prescription management',
-        'Health record integration',
-        'Medication reminder system'
+      title: 'Healthcare App',
+      descriptionPoints: [
+        'Secure patient management system with AI diagnostics.',
+        'Telemedicine features for remote consultations.',
+        'HIPAA-compliant data handling and storage.',
       ],
-      challenges: [
-        'Ensuring HIPAA compliance for all data',
-        'Achieving accurate AI diagnosis predictions',
-        'Maintaining performance on older mobile devices',
-        'Integrating with various health record systems'
-      ],
-      results: [
-        '92% accuracy in preliminary diagnoses',
-        '40% reduction in unnecessary clinic visits',
-        'Average wait time decreased from 3 days to 4 hours',
-        '4.8/5 rating on app stores'
-      ]
+      image: '/portfolio-healthcare.jpg',
+      category: 'Mobile',
+      technologies: ['React Native', 'TensorFlow', 'AWS', 'Node.js'],
+      liveUrl: 'https://healthcare-app.com',
+      codeUrl: 'https://github.com/nexuslabs/healthcare-app',
     },
     {
-      id: 3,
-      title: 'WealthNex Analytics Dashboard',
-      description: 'Real-time analytics and visualization platform for financial data with predictive insights and reporting tools.',
-      fullDescription: 'WealthNex provides financial institutions with powerful real-time analytics and predictive insights. The platform processes millions of data points to deliver actionable intelligence and comprehensive visualizations for informed decision-making.',
-      category: 'web',
-      image: '/placeholder-finance.jpg',
-      technologies: ['Vue.js', 'D3.js', 'Python', 'AWS', 'WebSocket', 'Redis'],
-      liveUrl: 'https://wealthnex-demo.com',
-      caseStudy: '/case-studies/finance',
-      features: [
-        'Real-time financial data visualization',
-        'Predictive market trend analysis',
-        'Customizable dashboard with drag-and-drop widgets',
-        'Automated report generation',
-        'Multi-factor authentication and encryption'
+      title: 'FinTech Dashboard',
+      descriptionPoints: [
+        'Real-time tracking of investments and market trends.',
+        'Secure API integrations for financial data.',
+        'Customizable widgets for personalized user experience.',
       ],
-      challenges: [
-        'Processing real-time data streams with low latency',
-        'Ensuring data accuracy and consistency',
-        'Creating intuitive visualizations for complex data',
-        'Meeting financial industry security standards'
-      ],
-      results: [
-        '50% faster decision-making for clients',
-        '30% improvement in predictive accuracy compared to legacy systems',
-        'Handles over 1 million transactions daily',
-        '99.99% uptime since launch'
-      ]
+      image: '/portfolio-fintech.jpg',
+      category: 'Web',
+      technologies: ['React', 'TypeScript', 'GraphQL', 'AWS Amplify'],
+      liveUrl: 'https://fintech-dashboard.com',
+      codeUrl: 'https://github.com/nexuslabs/fintech-dashboard',
     },
     {
-      id: 4,
-      title: 'HomeNex IoT Ecosystem',
-      description: 'Connected device ecosystem for home automation with energy optimization and security features.',
-      fullDescription: 'HomeNex is a comprehensive IoT ecosystem that transforms ordinary homes into smart, efficient living spaces. The system integrates lighting, climate control, security, and entertainment into a seamless, voice-controlled experience.',
-      category: 'iot',
-      image: '/placeholder-iot.jpg',
-      technologies: ['React', 'Python', 'Raspberry Pi', 'MQTT', 'WebSocket', 'TensorFlow Lite'],
-      githubUrl: 'https://github.com/nexus-labs/homenex',
-      caseStudy: '/case-studies/iot',
-      features: [
-        'Voice-controlled home automation',
-        'Energy usage optimization algorithms',
-        'Advanced security with facial recognition',
-        'Predictive maintenance alerts',
-        'Seamless device interoperability'
+      title: 'EdTech Platform',
+      descriptionPoints: [
+        'Interactive learning management system.',
+        'Course creation tools for educators.',
+        'Gamified learning experiences for students.',
       ],
-      challenges: [
-        'Ensuring compatibility with diverse IoT devices',
-        'Maintaining security across all connected devices',
-        'Creating reliable voice recognition in noisy environments',
-        'Optimizing energy consumption of the system itself'
-      ],
-      results: [
-        '30% reduction in energy costs for users',
-        'Average response time under 100ms',
-        '99.5% accuracy in voice command recognition',
-        'Supported by 200+ IoT devices'
-      ]
+      image: '/portfolio-edtech.jpg',
+      category: 'Web',
+      technologies: ['Next.js', 'MongoDB', 'Tailwind CSS', 'Vercel'],
+      liveUrl: 'https://edtech-platform.com',
+      codeUrl: 'https://github.com/nexuslabs/edtech-platform',
     },
     {
-      id: 5,
-      title: 'RetailAR Shopping Experience',
-      description: 'Augmented reality application allowing customers to visualize products in their space before purchasing.',
-      fullDescription: 'RetailAR transforms online shopping with immersive augmented reality experiences. Customers can visualize furniture, decor, and fashion items in their own space before making purchase decisions, dramatically reducing returns and increasing confidence.',
-      category: 'ar',
-      image: '/placeholder-ar.jpg',
-      technologies: ['Unity', 'ARKit', 'ARCore', '3D Modeling', 'Swift', 'Java'],
-      liveUrl: 'https://retailar-demo.com',
-      caseStudy: '/case-studies/ar',
-      features: [
-        'Life-like 3D product visualization',
-        'Multi-surface detection and placement',
-        'Real-time lighting adjustment',
-        'Social sharing of AR setups',
-        'Integration with e-commerce platforms'
+      title: 'AI-Powered Chatbot',
+      descriptionPoints: [
+        'Intelligent customer support chatbot.',
+        'NLP integration for natural language understanding.',
+        'CRM system compatibility for seamless operations.',
       ],
-      challenges: [
-        'Creating accurate 3D models from product photos',
-        'Maintaining consistent scale across different devices',
-        'Optimizing for mobile device performance',
-        'Handling various lighting conditions'
-      ],
-      results: [
-        '45% reduction in product returns',
-        '2.5x longer session duration compared to traditional shopping',
-        '70% of users more likely to purchase after using AR',
-        'Featured in Apple\'s "App of the Day"'
-      ]
+      image: '/portfolio-chatbot.jpg',
+      category: 'AI',
+      technologies: ['Python', 'TensorFlow', 'AWS Lambda', 'Dialogflow'],
+      liveUrl: 'https://ai-chatbot.com',
+      codeUrl: 'https://github.com/nexuslabs/ai-chatbot',
     },
     {
-      id: 6,
-      title: 'SupplyChain Blockchain Solution',
-      description: 'Transparent supply chain management system using blockchain technology for traceability and verification.',
-      fullDescription: 'This blockchain-based supply chain solution brings unprecedented transparency and security to logistics and product tracking. From raw materials to end consumers, every step is immutably recorded, combating counterfeit goods and ensuring ethical sourcing.',
-      category: 'blockchain',
-      image: '/placeholder-blockchain.jpg',
-      technologies: ['Ethereum', 'Solidity', 'Web3.js', 'IPFS', 'Node.js', 'React'],
-      githubUrl: 'https://github.com/nexus-labs/supplychain-blockchain',
-      caseStudy: '/case-studies/blockchain',
-      features: [
-        'End-to-end product journey tracking',
-        'Smart contracts for automated verification',
-        'Tamper-proof records of transactions',
-        'Supplier reputation system',
-        'Real-time shipping conditions monitoring'
+      title: 'Cloud Migration Solution',
+      descriptionPoints: [
+        'Seamless migration tool for enterprise applications.',
+        'Zero downtime during cloud transition.',
+        'Cost-effective infrastructure optimization.',
       ],
-      challenges: [
-        'Balancing transparency with proprietary information protection',
-        'Achieving sufficient transaction throughput',
-        'Educating users on blockchain technology',
-        'Integrating with legacy supply chain systems'
+      image: '/portfolio-cloud.jpg',
+      category: 'Cloud',
+      technologies: ['AWS', 'Docker', 'Kubernetes', 'Terraform'],
+      liveUrl: 'https://cloud-migration.com',
+      codeUrl: 'https://github.com/nexuslabs/cloud-migration',
+    },
+    {
+      title: 'Cybersecurity Suite',
+      descriptionPoints: [
+        'Advanced threat detection and prevention system.',
+        'Real-time monitoring with automated alerts.',
+        'Compliance with GDPR and ISO 27001 standards.',
       ],
-      results: [
-        '100% traceability for all products',
-        'Eliminated counterfeit goods in pilot program',
-        '40% reduction in paperwork and manual verification',
-        '30% faster customs clearance processes'
-      ]
-    }
+      image: '/portfolio-cybersecurity.jpg',
+      category: 'Cybersecurity',
+      technologies: ['Python', 'Splunk', 'AWS WAF', 'OpenSSL'],
+      liveUrl: 'https://cybersecurity-suite.com',
+      codeUrl: 'https://github.com/nexuslabs/cybersecurity-suite',
+    },
+    {
+      title: 'DevOps Pipeline',
+      descriptionPoints: [
+        'Automated CI/CD pipeline for rapid deployments.',
+        'Infrastructure as code for scalable systems.',
+        'Monitoring and logging for performance insights.',
+      ],
+      image: '/portfolio-devops.jpg',
+      category: 'DevOps',
+      technologies: ['Jenkins', 'Docker', 'Kubernetes', 'Ansible'],
+      liveUrl: 'https://devops-pipeline.com',
+      codeUrl: 'https://github.com/nexuslabs/devops-pipeline',
+    },
+    {
+      title: 'Social Media Analytics',
+      descriptionPoints: [
+        'Real-time analytics for social media campaigns.',
+        'Sentiment analysis using AI models.',
+        'Custom reporting dashboards for clients.',
+      ],
+      image: '/portfolio-socialmedia.jpg',
+      category: 'AI',
+      technologies: ['Python', 'PyTorch', 'AWS S3', 'React'],
+      liveUrl: 'https://socialmedia-analytics.com',
+      codeUrl: 'https://github.com/nexuslabs/socialmedia-analytics',
+    },
+    {
+      title: 'IoT Smart Home App',
+      descriptionPoints: [
+        'Mobile app for controlling smart home devices.',
+        'Integration with IoT protocols like MQTT.',
+        'Secure user authentication and data encryption.',
+      ],
+      image: '/portfolio-iot.jpg',
+      category: 'Mobile',
+      technologies: ['Flutter', 'AWS IoT', 'Node.js', 'MongoDB'],
+      liveUrl: 'https://iot-smarthome.com',
+      codeUrl: 'https://github.com/nexuslabs/iot-smarthome',
+    },
   ];
 
-  const categories = [
-    { id: 'all', name: 'All Projects', icon: <Sparkles size={18} /> },
-    { id: 'web', name: 'Web Development', icon: <Globe size={18} /> },
-    { id: 'mobile', name: 'Mobile Apps', icon: <Smartphone size={18} /> },
-    { id: 'iot', name: 'Internet of Things', icon: <Cpu size={18} /> },
-    { id: 'ar', name: 'AR/VR', icon: <Server size={18} /> },
-    { id: 'blockchain', name: 'Blockchain', icon: <Database size={18} /> }
+  const testimonials: Testimonial[] = [
+    {
+      quote: 'NEXUS LABS delivered an exceptional e-commerce platform that boosted our sales by 40%.',
+      author: 'Jane Doe',
+      role: 'CEO, ShopTrend',
+    },
+    {
+      quote: 'The healthcare app was a game-changer for our clinic, streamlining patient care.',
+      author: 'Dr. John Smith',
+      role: 'Chief Medical Officer',
+    },
   ];
 
-  const filteredItems = selectedCategory === 'all' 
-    ? portfolioItems 
-    : portfolioItems.filter(item => item.category === selectedCategory);
+  const filteredItems = filter === 'All' ? portfolioItems : portfolioItems.filter(item => item.category === filter);
 
-  const openProject = (project: PortfolioItem) => {
-    setSelectedProject(project);
-    setCurrentIndex(portfolioItems.findIndex(item => item.id === project.id));
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeProject = () => {
-    setSelectedProject(null);
-    document.body.style.overflow = 'auto';
-  };
-
-  const navigateProject = (direction: 'prev' | 'next') => {
-    let newIndex;
-    if (direction === 'next') {
-      newIndex = (currentIndex + 1) % portfolioItems.length;
-    } else {
-      newIndex = (currentIndex - 1 + portfolioItems.length) % portfolioItems.length;
-    }
-    
-    setCurrentIndex(newIndex);
-    setSelectedProject(portfolioItems[newIndex]);
-  };
-
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1
-    }
-  };
+  // Split "Our Portfolio" into letters for glitch animation
+  const titleLetters = "Our Portfolio".split('');
+  // Split "Showcasing Excellence." into words for typewriter-heavy animation
+  const sloganWords = ["Showcasing", "Excellence."];
 
   return (
-    <div className="min-h-screen bg-black/95 text-white pt-20">
-      {/* Enhanced Hero Section */}
-      <section className="relative bg-gradient-to-b from-cyan-900/10 to-black/90 backdrop-blur-xl py-28 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(to_bottom,white_10%,transparent_70%)]"></div>
-        
-        {/* Animated particles */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(15)].map((_, i) => (
+    <div className="min-h-screen bg-black/95 text-white">
+     {/* Hero Section */}
+      <section className="relative bg-black/90 backdrop-blur-xl pt-48 pb-20 overflow-hidden">
+        <div className="h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 absolute top-0 left-0 right-0"></div>
+        {/* Radial Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-radial from-cyan-500/10 via-transparent to-transparent"></div>
+        {/* Circuit Pattern Overlay */}
+        <div
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M10 10h40v40H10z' stroke='%2306b6d4' stroke-width='1'/%3E%3Cpath d='M20 20h20v20H20z' stroke='%2306b6d4' stroke-width='1'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%2306b6d4'/%3E%3C/svg%3E")`,
+            backgroundRepeat: 'repeat',
+          }}
+        ></div>
+        {/* Interactive Particle Background */}
+        <div className="absolute inset-0 pointer-events-auto">
+          {[...Array(12)].map((_, i) => (
             <div
               key={i}
-              className="absolute bg-cyan-400/20 rounded-full particle animate-float"
+              className="absolute bg-cyan-300/30 rounded-full particle-orbit hover:bg-cyan-300/70 transition-all duration-300"
               style={{
-                width: `${Math.random() * 4 + 2}px`,
-                height: `${Math.random() * 4 + 2}px`,
+                width: `${Math.random() * 4 + 3}px`,
+                height: `${Math.random() * 4 + 3}px`,
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
+                animation: `float-orbit ${Math.random() * 8 + 5}s linear 1`,
                 animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${Math.random() * 10 + 5}s`,
+                willChange: 'transform',
               }}
             />
           ))}
         </div>
-        
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-6">
-            <span className="bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500 bg-clip-text text-transparent">
-              Innovative Portfolio
-            </span>
+        {/* 3D Hexagonal Grid */}
+        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 hidden lg:block">
+          <div className="hex-grid hex-rotate">
+            {[...Array(7)].map((_, i) => (
+              <div
+                key={i}
+                className="hex"
+                style={{
+                  position: 'absolute',
+                  width: '60px',
+                  height: '104px',
+                  background: 'none',
+                  border: '1px solid rgba(6, 182, 212, 0.3)',
+                  clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                  top: `${(i % 2) * 52}px`,
+                  left: `${Math.floor(i / 2) * 90}px`,
+                  animationDelay: `${i * 0.2}s`,
+                }}
+              >
+                <div className="hex-inner neon-pulse" style={{ animationDelay: `${i * 0.2 + 0.5}s` }}></div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text text-transparent glitch">
+            {titleLetters.map((letter, index) => (
+              <span
+                key={index}
+                data-text={letter}
+                style={{ animationDelay: `${index * 0.1}s`, display: letter === ' ' ? 'inline-block' : 'inline' }}
+              >
+                {letter}
+              </span>
+            ))}
           </h1>
-          <div className="h-1 w-24 bg-cyan-500 mx-auto mb-6"></div>
-          <p className="text-xl md:text-2xl text-cyan-300/80 max-w-3xl mx-auto mb-10">
-            Exploring the frontier of technology through cutting-edge projects that transform industries and redefine possibilities.
+          <p className="mt-4 text-lg md:text-xl text-cyan-300/70 max-w-lg mx-auto">
+            <span className="inline-block typewriter-heavy">
+              {sloganWords.map((word, index) => (
+                <span
+                  key={index}
+                  style={{ animationDelay: `${index * 0.5 + 1.5}s`, display: 'inline-block', marginRight: '0.2em' }}
+                >
+                  {word}
+                </span>
+              ))}
+            </span>
           </p>
-          
-          <div className="flex flex-wrap justify-center gap-4 mt-12">
-            <Link
-              href="/services"
-              className="px-6 py-3 bg-cyan-500/10 border border-cyan-500/50 text-cyan-300 rounded-lg hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-100 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.2)] hover:shadow-[0_0_25px_rgba(0,255,255,0.3)] flex items-center"
-            >
-              <Zap className="mr-2" size={20} />
-              Our Services
-            </Link>
-            <Link
-              href="/contact"
-              className="px-6 py-3 bg-cyan-500/10 border border-cyan-500/50 text-cyan-300 rounded-lg hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-100 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.2)] hover:shadow-[0_0_25px_rgba(0,255,255,0.3)] flex items-center"
-            >
-              Start a Project
-              <ArrowRight className="ml-2" size={20} />
-            </Link>
-          </div>
-        </div>
-        
-        {/* Animated circuit border */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50"></div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-black/80 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="p-6 bg-black/50 border border-cyan-500/20 rounded-lg">
-              <div className="text-4xl font-black text-cyan-400 mb-2">50+</div>
-              <div className="text-cyan-300/70">Projects Completed</div>
-            </div>
-            <div className="p-6 bg-black/50 border border-cyan-500/20 rounded-lg">
-              <div className="text-4xl font-black text-cyan-400 mb-2">28</div>
-              <div className="text-cyan-300/70">Happy Clients</div>
-            </div>
-            <div className="p-6 bg-black/50 border border-cyan-500/20 rounded-lg">
-              <div className="text-4xl font-black text-cyan-400 mb-2">15</div>
-              <div className="text-cyan-300/70">Awards Received</div>
-            </div>
-            <div className="p-6 bg-black/50 border border-cyan-500/20 rounded-lg">
-              <div className="text-4xl font-black text-cyan-400 mb-2">99.7%</div>
-              <div className="text-cyan-300/70">Client Satisfaction</div>
-            </div>
-          </div>
+          <p className="mt-2 text-cyan-300/70 max-w-lg mx-auto">
+            Dive into our portfolio of groundbreaking projects, crafted with cutting-edge technology and visionary design.
+          </p>
+         
         </div>
       </section>
 
-      {/* Portfolio Filter */}
+      {/* Portfolio Items Section */}
       <section className="py-16 bg-black/90 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cyan-400 text-center mb-4">Explore Our Work</h2>
-          <p className="text-cyan-300/70 text-center max-w-2xl mx-auto mb-12">
-            Filter through our diverse portfolio of innovative projects across various technologies and industries.
-          </p>
-          
-          <div className="flex flex-wrap justify-center gap-3 mb-16">
-            {categories.map(category => (
+          <h2 className="text-3xl font-black text-cyan-400 text-center mb-8">Our Projects</h2>
+          <div className="flex justify-center mb-8 space-x-4 flex-wrap gap-2">
+            {['All', 'Web', 'Mobile', 'AI', 'Cloud', 'Cybersecurity', 'DevOps'].map((category) => (
               <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-5 py-2 rounded-full border transition-all duration-300 flex items-center ${
-                  selectedCategory === category.id
-                    ? 'bg-cyan-500/20 border-cyan-500 text-cyan-300 shadow-[0_0_15px_rgba(0,255,255,0.3)]'
-                    : 'bg-black/50 border-cyan-500/30 text-cyan-300/70 hover:border-cyan-500/50 hover:text-cyan-300'
+                key={category}
+                onClick={() => setFilter(category as any)}
+                className={`px-4 py-2 text-sm font-bold uppercase tracking-widest border border-cyan-500/20 rounded-full transition-all duration-300 ${
+                  filter === category
+                    ? 'bg-cyan-500/20 text-cyan-300 shadow-[0_0_15px_rgba(0,255,255,0.5)]'
+                    : 'text-cyan-300/70 hover:text-cyan-300 hover:border-cyan-500/50'
                 }`}
               >
-                <span className="mr-2">{category.icon}</span>
-                {category.name}
+                {category}
               </button>
             ))}
           </div>
-
-          {/* Portfolio Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredItems.map((item, index) => (
               <div
-                key={item.id}
-                className={`group relative bg-black/80 border border-cyan-500/20 rounded-lg overflow-hidden hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.1)] hover:shadow-[0_0_25px_rgba(0,255,255,0.3)] cursor-pointer transform hover:-translate-y-2 delay-${index * 100}`}
-                onClick={() => openProject(item)}
-                style={{ transitionDelay: `${index * 100}ms` }}
+                key={item.title}
+                className="group relative bg-black/80 border border-cyan-500/20 p-6 rounded-lg hover:border-cyan-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] reveal"
+                style={{ animationDelay: `${index * 0.15}s` }}
               >
-                <div className="h-48 overflow-hidden relative">
-                  <div className="w-full h-full bg-gradient-to-br from-cyan-900/30 to-cyan-700/20 flex items-center justify-center">
-                    <div className="text-5xl text-cyan-500/30">{"{}"}</div>
-                  </div>
-                  <div className="absolute top-4 right-4">
-                    <span className="px-3 py-1 text-xs bg-cyan-900/80 text-cyan-300/90 rounded-full capitalize">
-                      {item.category}
+                <div className="overflow-hidden rounded-lg mb-4">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-48 object-cover transform group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="flex justify-center mb-4">
+                  <Briefcase size={40} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" />
+                </div>
+                <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 text-center transition-colors duration-300">
+                  {item.title}
+                </h3>
+                <ul className="mt-2 text-cyan-300/70 text-center list-disc list-inside">
+                  {item.descriptionPoints.map((point, pointIndex) => (
+                    <li key={pointIndex}>{point}</li>
+                  ))}
+                </ul>
+                <div className="mt-4 flex flex-wrap justify-center gap-2">
+                  {item.technologies.map((tech, techIndex) => (
+                    <span
+                      key={techIndex}
+                      className="px-3 py-1 text-sm text-cyan-300/70 bg-black/50 rounded-full border border-cyan-500/20"
+                    >
+                      {tech}
                     </span>
-                  </div>
+                  ))}
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300 mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-cyan-300/70 text-sm mb-4 line-clamp-2">
-                    {item.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.technologies.slice(0, 3).map((tech, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 text-xs bg-cyan-900/30 text-cyan-300/80 rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {item.technologies.length > 3 && (
-                      <span className="px-2 py-1 text-xs bg-cyan-900/30 text-cyan-300/80 rounded">
-                        +{item.technologies.length - 3}
-                      </span>
-                    )}
-                  </div>
+                <div className="mt-6 flex justify-center gap-4">
+                  <a href={item.liveUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center text-cyan-300 hover:text-cyan-100 transition-colors duration-300">
+                    <ExternalLink size={20} className="mr-1" />
+                    <span className="font-bold uppercase tracking-widest text-sm relative">
+                      Live Demo
+                      <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
+                    </span>
+                  </a>
+                  <a href={item.codeUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center text-cyan-300 hover:text-cyan-100 transition-colors duration-300">
+                    <Github size={20} className="mr-1" />
+                    <span className="font-bold uppercase tracking-widest text-sm relative">
+                      Code Repo
+                      <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
+                    </span>
+                  </a>
                 </div>
-                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 transition-all duration-500 group-hover:w-full"></div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Technology Stack Section */}
-      <section className="py-16 bg-black/80 backdrop-blur-xl">
+      {/* Testimonials Section */}
+      <section className="py-16 bg-black/90 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cyan-400 text-center mb-4">Our Technology Stack</h2>
-          <p className="text-cyan-300/70 text-center max-w-2xl mx-auto mb-12">
-            We leverage cutting-edge technologies to build innovative solutions that drive business transformation.
-          </p>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {[
-              { name: 'React/Next.js', icon: <Code className="text-cyan-400" size={32} /> },
-              { name: 'Node.js', icon: <Server className="text-cyan-400" size={32} /> },
-              { name: 'Python/AI', icon: <Cpu className="text-cyan-400" size={32} /> },
-              { name: 'Cloud/AWS', icon: <Cloud className="text-cyan-400" size={32} /> },
-              { name: 'Mobile', icon: <Smartphone className="text-cyan-400" size={32} /> },
-              { name: 'Blockchain', icon: <Database className="text-cyan-400" size={32} /> },
-            ].map((tech, index) => (
-              <div key={index} className="bg-black/50 border border-cyan-500/20 rounded-lg p-6 text-center group hover:border-cyan-500/50 transition-all duration-300">
-                <div className="flex justify-center mb-4">
-                  {tech.icon}
-                </div>
-                <h3 className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300">{tech.name}</h3>
+          <h2 className="text-3xl font-black text-cyan-400 text-center mb-8">What Our Clients Say</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="relative bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] transition-all duration-300 reveal"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                <Quote size={24} className="text-cyan-300 mb-4" />
+                <p className="text-cyan-300/70 italic">"{testimonial.quote}"</p>
+                <p className="mt-4 text-cyan-300 font-bold">{testimonial.author}</p>
+                <p className="text-cyan-300/70 text-sm">{testimonial.role}</p>
               </div>
             ))}
           </div>
@@ -454,174 +362,26 @@ const Portfolio: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-b from-black/90 to-cyan-900/10 backdrop-blur-xl">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-black text-cyan-400 mb-6">Ready to Start Your Project?</h2>
-          <p className="text-cyan-300/70 text-lg mb-10 max-w-2xl mx-auto">
-            Let's collaborate to bring your innovative ideas to life with cutting-edge technology solutions.
+      <section className="py-16 bg-black/90 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-black text-cyan-400 tracking-tight">
+            Ready to Build Your Next Project?
+          </h2>
+          <p className="mt-4 text-lg text-cyan-300/70 max-w-2xl mx-auto">
+            Contact us today to discuss how we can bring your vision to life with our expertise.
           </p>
-          <div className="flex flex-wrap justify-center gap-6">
-            <Link
-              href="/contact"
-              className="px-8 py-4 bg-cyan-500/10 border border-cyan-500/50 text-cyan-300 rounded-lg hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-100 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.2)] hover:shadow-[0_0_25px_rgba(0,255,255,0.3)] flex items-center text-lg"
-            >
-              Start a Project
-              <ArrowRight className="ml-2" size={20} />
-            </Link>
-            <Link
-              href="/process"
-              className="px-8 py-4 bg-cyan-500/10 border border-cyan-500/50 text-cyan-300 rounded-lg hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-100 transition-all duration-300 shadow-[0_0_15px_rgba(0,255,255,0.2)] hover:shadow-[0_0_25px_rgba(0,255,255,0.3)] flex items-center text-lg"
-            >
-              Our Process
-              <Zap className="ml-2" size={20} />
-            </Link>
-          </div>
+          <Link href="/contact">
+            <button className="mt-8 relative group bg-transparent border-2 border-cyan-400 px-8 py-3 text-cyan-300 font-black text-sm uppercase tracking-widest overflow-hidden transition-all duration-500 hover:text-black shadow-[0_0_25px_rgba(0,255,255,0.8),0_0_50px_rgba(0,255,255,0.4)] hover:shadow-[0_0_35px_rgba(0,255,255,1),0_0_70px_rgba(0,255,255,0.6)] neon-pulse hover:scale-110 hover:rotate-5">
+              <span className="relative z-10 flex items-center justify-center space-x-2">
+                <span>Hire me</span>
+                <ArrowRight size={16} />
+              </span>
+              <div className="absolute inset-0 bg-cyan-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+              <div className="absolute inset-0 border-2 border-cyan-400 transform scale-110 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300"></div>
+            </button>
+          </Link>
         </div>
       </section>
-
-      {/* Project Modal */}
-      {selectedProject && (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="relative bg-gradient-to-b from-black to-cyan-900/10 border border-cyan-500/30 rounded-xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={closeProject}
-              className="absolute top-4 right-4 z-10 p-2 bg-black/80 border border-cyan-500/30 rounded-full text-cyan-300 hover:text-cyan-100 hover:border-cyan-500/50 transition-all duration-300"
-            >
-              <X size={24} />
-            </button>
-
-            <button
-              onClick={() => navigateProject('prev')}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-black/80 border border-cyan-500/30 rounded-full text-cyan-300 hover:text-cyan-100 hover:border-cyan-500/50 transition-all duration-300"
-            >
-              <ChevronLeft size={24} />
-            </button>
-
-            <button
-              onClick={() => navigateProject('next')}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-black/80 border border-cyan-500/30 rounded-full text-cyan-300 hover:text-cyan-100 hover:border-cyan-500/50 transition-all duration-300"
-            >
-              <ChevronRight size={24} />
-            </button>
-
-            <div className="h-64 bg-gradient-to-br from-cyan-900/30 to-cyan-700/20 flex items-center justify-center relative">
-              <div className="text-7xl text-cyan-500/30">{"{}"}</div>
-              <div className="absolute top-4 left-4">
-                <span className="px-3 py-1 text-sm bg-cyan-900/80 text-cyan-300/90 rounded-full capitalize">
-                  {selectedProject.category}
-                </span>
-              </div>
-            </div>
-
-            <div className="p-8">
-              <h2 className="text-3xl font-black text-cyan-400 mb-2">
-                {selectedProject.title}
-              </h2>
-              
-              <p className="text-cyan-300/80 mb-8 text-lg">
-                {selectedProject.fullDescription}
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                <div>
-                  <h3 className="text-xl font-bold text-cyan-300 mb-4 flex items-center">
-                    <Zap className="mr-2" size={20} />
-                    Key Features
-                  </h3>
-                  <ul className="space-y-2">
-                    {selectedProject.features.map((feature, index) => (
-                      <li key={index} className="text-cyan-300/70 flex items-start">
-                        <span className="text-cyan-400 mr-2">•</span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div>
-                  <h3 className="text-xl font-bold text-cyan-300 mb-4 flex items-center">
-                    <Code className="mr-2" size={20} />
-                    Challenges
-                  </h3>
-                  <ul className="space-y-2">
-                    {selectedProject.challenges.map((challenge, index) => (
-                      <li key={index} className="text-cyan-300/70 flex items-start">
-                        <span className="text-cyan-400 mr-2">•</span>
-                        {challenge}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div>
-                  <h3 className="text-xl font-bold text-cyan-300 mb-4 flex items-center">
-                    <Sparkles className="mr-2" size={20} />
-                    Results
-                  </h3>
-                  <ul className="space-y-2">
-                    {selectedProject.results.map((result, index) => (
-                      <li key={index} className="text-cyan-300/70 flex items-start">
-                        <span className="text-cyan-400 mr-2">•</span>
-                        {result}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="mb-8">
-                <h3 className="text-xl font-bold text-cyan-300 mb-4">Technologies Used</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedProject.technologies.map((tech, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-cyan-900/30 text-cyan-300/80 rounded-full text-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-4">
-                {selectedProject.liveUrl && (
-                  <a
-                    href={selectedProject.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center px-5 py-2 bg-cyan-500/10 border border-cyan-500/50 text-cyan-300 rounded-lg hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-100 transition-all duration-300"
-                  >
-                    <ExternalLink size={18} className="mr-2" />
-                    Live Demo
-                  </a>
-                )}
-                
-                {selectedProject.githubUrl && (
-                  <a
-                    href={selectedProject.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center px-5 py-2 bg-cyan-500/10 border border-cyan-500/50 text-cyan-300 rounded-lg hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-100 transition-all duration-300"
-                  >
-                    <Github size={18} className="mr-2" />
-                    View Code
-                  </a>
-                )}
-                
-                {selectedProject.caseStudy && (
-                  <Link
-                    href={selectedProject.caseStudy}
-                    className="flex items-center px-5 py-2 bg-cyan-500/10 border border-cyan-500/50 text-cyan-300 rounded-lg hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-100 transition-all duration-300"
-                  >
-                    <ArrowRight size={18} className="mr-2" />
-                    Case Study
-                  </Link>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
