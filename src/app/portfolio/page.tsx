@@ -67,154 +67,154 @@ const Portfolio: React.FC = () => {
   ];
 
   const projects: Project[] = [
-    {
-      id: 'ai-analytics-platform',
-      title: 'AI-Powered Analytics Platform',
-      category: 'ai-ml',
-      description: 'Enterprise-grade analytics platform with real-time data processing and predictive modeling capabilities.',
-      image: '/placeholder-project-1.jpg',
-      technologies: ['Python', 'TensorFlow', 'React', 'PostgreSQL', 'Docker', 'AWS'],
-      features: [
-        'Real-time data ingestion',
-        'Predictive analytics models',
-        'Interactive dashboards',
-        'Automated reporting',
-        'API integrations'
-      ],
-      results: [
-        { metric: 'Data Processing Speed', value: '10x Faster', description: 'Improved processing speed compared to legacy system' },
-        { metric: 'Prediction Accuracy', value: '94%', description: 'Machine learning model accuracy rate' },
-        { metric: 'Cost Reduction', value: '40%', description: 'Operational cost savings achieved' }
-      ],
-      timeline: '16 weeks',
-      client: 'TechCorp Global',
-      industry: 'Technology',
-      liveUrl: '#',
-      caseStudyUrl: '#'
-    },
-    {
-      id: 'ecommerce-platform',
-      title: 'Next-Gen E-Commerce Platform',
-      category: 'web-development',
-      description: 'Scalable e-commerce solution with advanced payment processing and inventory management.',
-      image: '/placeholder-project-2.jpg',
-      technologies: ['Next.js', 'TypeScript', 'Stripe', 'MongoDB', 'Redis', 'Vercel'],
-      features: [
-        'Multi-vendor marketplace',
-        'Advanced search & filtering',
-        'Real-time inventory tracking',
-        'Mobile-first design',
-        'Payment gateway integration'
-      ],
-      results: [
-        { metric: 'Sales Increase', value: '250%', description: 'Revenue growth in first 6 months' },
-        { metric: 'Page Load Speed', value: '0.8s', description: 'Average page load time' },
-        { metric: 'Mobile Conversions', value: '65%', description: 'Mobile traffic conversion rate' }
-      ],
-      timeline: '20 weeks',
-      client: 'RetailMax',
-      industry: 'E-Commerce',
-      liveUrl: '#',
-      caseStudyUrl: '#'
-    },
-    {
-      id: 'cloud-migration',
-      title: 'Enterprise Cloud Migration',
-      category: 'cloud-infrastructure',
-      description: 'Complete migration of legacy infrastructure to scalable cloud architecture.',
-      image: '/placeholder-project-3.jpg',
-      technologies: ['AWS', 'Kubernetes', 'Terraform', 'Docker', 'Jenkins', 'Prometheus'],
-      features: [
-        'Zero-downtime migration',
-        'Auto-scaling infrastructure',
-        'Disaster recovery setup',
-        'Cost optimization',
-        'Security compliance'
-      ],
-      results: [
-        { metric: 'Uptime Improvement', value: '99.99%', description: 'System availability achieved' },
-        { metric: 'Cost Savings', value: '45%', description: 'Infrastructure cost reduction' },
-        { metric: 'Deployment Speed', value: '10x Faster', description: 'Application deployment time' }
-      ],
-      timeline: '12 weeks',
-      client: 'FinanceFirst Bank',
-      industry: 'Financial Services',
-      caseStudyUrl: '#'
-    },
-    {
-      id: 'security-soc',
-      title: 'Security Operations Center',
-      category: 'cybersecurity',
-      description: '24/7 security monitoring and incident response system with AI-powered threat detection.',
-      image: '/placeholder-project-4.jpg',
-      technologies: ['Splunk', 'ELK Stack', 'Python', 'CrowdStrike', 'Palo Alto', 'MISP'],
-      features: [
-        '24/7 threat monitoring',
-        'AI-powered detection',
-        'Automated incident response',
-        'Compliance reporting',
-        'Threat intelligence integration'
-      ],
-      results: [
-        { metric: 'Threat Detection', value: '99.7%', description: 'Advanced threat detection rate' },
-        { metric: 'Response Time', value: '< 5min', description: 'Average incident response time' },
-        { metric: 'False Positives', value: '-85%', description: 'Reduction in false alerts' }
-      ],
-      timeline: '24 weeks',
-      client: 'HealthSecure Inc.',
-      industry: 'Healthcare',
-      caseStudyUrl: '#'
-    },
-    {
-      id: 'nlp-chatbot',
-      title: 'Intelligent Customer Service Bot',
-      category: 'ai-ml',
-      description: 'Advanced NLP-powered chatbot with multi-language support and sentiment analysis.',
-      image: '/placeholder-project-5.jpg',
-      technologies: ['Python', 'OpenAI GPT', 'BERT', 'Flask', 'React', 'PostgreSQL'],
-      features: [
-        'Natural language understanding',
-        'Multi-language support',
-        'Sentiment analysis',
-        'Knowledge base integration',
-        'Human handoff capability'
-      ],
-      results: [
-        { metric: 'Customer Satisfaction', value: '92%', description: 'Customer satisfaction score' },
-        { metric: 'Resolution Rate', value: '78%', description: 'First-contact resolution rate' },
-        { metric: 'Response Time', value: '< 2sec', description: 'Average response time' }
-      ],
-      timeline: '14 weeks',
-      client: 'ServicePro Solutions',
-      industry: 'Customer Service',
-      liveUrl: '#',
-      caseStudyUrl: '#'
-    },
-    {
-      id: 'microservices-architecture',
-      title: 'Microservices Architecture Redesign',
-      category: 'cloud-infrastructure',
-      description: 'Complete application modernization using microservices architecture and containerization.',
-      image: '/placeholder-project-6.jpg',
-      technologies: ['Node.js', 'Docker', 'Kubernetes', 'GraphQL', 'MongoDB', 'RabbitMQ'],
-      features: [
-        'Service decomposition',
-        'API gateway implementation',
-        'Event-driven architecture',
-        'Auto-scaling services',
-        'Monitoring & logging'
-      ],
-      results: [
-        { metric: 'Scalability', value: '500%', description: 'Increased system scalability' },
-        { metric: 'Development Speed', value: '3x Faster', description: 'Feature development velocity' },
-        { metric: 'System Reliability', value: '99.95%', description: 'System uptime achieved' }
-      ],
-      timeline: '18 weeks',
-      client: 'ScaleUp Technologies',
-      industry: 'SaaS',
-      caseStudyUrl: '#'
-    }
-  ];
+  {
+    id: 'ai-analytics-platform',
+    title: 'AI-Powered Analytics Platform',
+    category: 'ai-ml',
+    description: 'Enterprise-grade analytics platform with real-time data processing and predictive modeling capabilities.',
+    image: '/images/dashbord-bussiness.jpeg',
+    technologies: ['Python', 'TensorFlow', 'React', 'PostgreSQL', 'Docker', 'AWS'],
+    features: [
+      'Real-time data ingestion',
+      'Predictive analytics models',
+      'Interactive dashboards',
+      'Automated reporting',
+      'API integrations'
+    ],
+    results: [
+      { metric: 'Data Processing Speed', value: '10x Faster', description: 'Improved processing speed compared to legacy system' },
+      { metric: 'Prediction Accuracy', value: '94%', description: 'Machine learning model accuracy rate' },
+      { metric: 'Cost Reduction', value: '40%', description: 'Operational cost savings achieved' }
+    ],
+    timeline: '16 weeks',
+    client: 'TechCorp Global',
+    industry: 'Technology',
+    liveUrl: '#',
+    caseStudyUrl: '#'
+  },
+  {
+    id: 'ecommerce-platform',
+    title: 'Next-Gen E-Commerce Platform',
+    category: 'web-development',
+    description: 'Scalable e-commerce solution with advanced payment processing and inventory management.',
+    image: '/images/project-2.jpg',
+    technologies: ['Next.js', 'TypeScript', 'Stripe', 'MongoDB', 'Redis', 'Vercel'],
+    features: [
+      'Multi-vendor marketplace',
+      'Advanced search & filtering',
+      'Real-time inventory tracking',
+      'Mobile-first design',
+      'Payment gateway integration'
+    ],
+    results: [
+      { metric: 'Sales Increase', value: '250%', description: 'Revenue growth in first 6 months' },
+      { metric: 'Page Load Speed', value: '0.8s', description: 'Average page load time' },
+      { metric: 'Mobile Conversions', value: '65%', description: 'Mobile traffic conversion rate' }
+    ],
+    timeline: '20 weeks',
+    client: 'RetailMax',
+    industry: 'E-Commerce',
+    liveUrl: '#',
+    caseStudyUrl: '#'
+  },
+  {
+    id: 'cloud-migration',
+    title: 'Enterprise Cloud Migration',
+    category: 'cloud-infrastructure',
+    description: 'Complete migration of legacy infrastructure to scalable cloud architecture.',
+    image: '/images/project-3.jpg',
+    technologies: ['AWS', 'Kubernetes', 'Terraform', 'Docker', 'Jenkins', 'Prometheus'],
+    features: [
+      'Zero-downtime migration',
+      'Auto-scaling infrastructure',
+      'Disaster recovery setup',
+      'Cost optimization',
+      'Security compliance'
+    ],
+    results: [
+      { metric: 'Uptime Improvement', value: '99.99%', description: 'System availability achieved' },
+      { metric: 'Cost Savings', value: '45%', description: 'Infrastructure cost reduction' },
+      { metric: 'Deployment Speed', value: '10x Faster', description: 'Application deployment time' }
+    ],
+    timeline: '12 weeks',
+    client: 'FinanceFirst Bank',
+    industry: 'Financial Services',
+    caseStudyUrl: '#'
+  },
+  {
+    id: 'security-soc',
+    title: 'Security Operations Center',
+    category: 'cybersecurity',
+    description: '24/7 security monitoring and incident response system with AI-powered threat detection.',
+    image: '/images/project-4.jpg',
+    technologies: ['Splunk', 'ELK Stack', 'Python', 'CrowdStrike', 'Palo Alto', 'MISP'],
+    features: [
+      '24/7 threat monitoring',
+      'AI-powered detection',
+      'Automated incident response',
+      'Compliance reporting',
+      'Threat intelligence integration'
+    ],
+    results: [
+      { metric: 'Threat Detection', value: '99.7%', description: 'Advanced threat detection rate' },
+      { metric: 'Response Time', value: '< 5min', description: 'Average incident response time' },
+      { metric: 'False Positives', value: '-85%', description: 'Reduction in false alerts' }
+    ],
+    timeline: '24 weeks',
+    client: 'HealthSecure Inc.',
+    industry: 'Healthcare',
+    caseStudyUrl: '#'
+  },
+  {
+    id: 'nlp-chatbot',
+    title: 'Intelligent Customer Service Bot',
+    category: 'ai-ml',
+    description: 'Advanced NLP-powered chatbot with multi-language support and sentiment analysis.',
+    image: '/images/project-5.jpg',
+    technologies: ['Python', 'OpenAI GPT', 'BERT', 'Flask', 'React', 'PostgreSQL'],
+    features: [
+      'Natural language understanding',
+      'Multi-language support',
+      'Sentiment analysis',
+      'Knowledge base integration',
+      'Human handoff capability'
+    ],
+    results: [
+      { metric: 'Customer Satisfaction', value: '92%', description: 'Customer satisfaction score' },
+      { metric: 'Resolution Rate', value: '78%', description: 'First-contact resolution rate' },
+      { metric: 'Response Time', value: '< 2sec', description: 'Average response time' }
+    ],
+    timeline: '14 weeks',
+    client: 'ServicePro Solutions',
+    industry: 'Customer Service',
+    liveUrl: '#',
+    caseStudyUrl: '#'
+  },
+  {
+    id: 'microservices-architecture',
+    title: 'Microservices Architecture Redesign',
+    category: 'cloud-infrastructure',
+    description: 'Complete application modernization using microservices architecture and containerization.',
+    image: '/images/project-6.jpg',
+    technologies: ['Node.js', 'Docker', 'Kubernetes', 'GraphQL', 'MongoDB', 'RabbitMQ'],
+    features: [
+      'Service decomposition',
+      'API gateway implementation',
+      'Event-driven architecture',
+      'Auto-scaling services',
+      'Monitoring & logging'
+    ],
+    results: [
+      { metric: 'Scalability', value: '500%', description: 'Increased system scalability' },
+      { metric: 'Development Speed', value: '3x Faster', description: 'Feature development velocity' },
+      { metric: 'System Reliability', value: '99.95%', description: 'System uptime achieved' }
+    ],
+    timeline: '18 weeks',
+    client: 'ScaleUp Technologies',
+    industry: 'SaaS',
+    caseStudyUrl: '#'
+  }
+];
 
   const filteredProjects = activeCategory === 'all' 
     ? projects 

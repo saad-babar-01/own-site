@@ -16,7 +16,7 @@ const Header: React.FC = () => {
     { label: 'Services', href: '/services', icon: <Code size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
     { label: 'Portfolio', href: '/portfolio', icon: <Zap size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
     { label: 'About', href: '/about', icon: <Shield size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
-    { label: 'Technology', href: '/tech', icon: <Cpu size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-colors duration-300" /> },
+   
     { label: 'Contact', href: '/contact' }
   ];
 

@@ -267,7 +267,7 @@ const Home: React.FC = () => {
             </div>
             <div className="flex-1 hidden lg:block">
               <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
-                <img src="/placeholder-innovation.jpg" alt="Innovation Lab" className="w-full h-64 object-cover rounded" />
+                <img src="/images/hero png.png" alt="Innovation Lab" className="w-full h-64 object-cover rounded" />
               </div>
             </div>
           </div>
@@ -292,7 +292,7 @@ const Home: React.FC = () => {
             </div>
             <div className="flex-1 hidden lg:block">
               <div className="bg-black/80 border border-cyan-500/20 p-6 rounded-lg shadow-[0_0_15px_rgba(0,255,255,0.3)]">
-                <img src="/placeholder-vision.jpg" alt="Our Vision" className="w-full h-64 object-cover rounded" />
+                <img src="/images/vission1.jpg" alt="Our Vision" className="w-full h-64 object-cover rounded" />
               </div>
             </div>
           </div>
