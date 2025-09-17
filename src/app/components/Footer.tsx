@@ -6,8 +6,8 @@ const Footer: React.FC = () => {
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
 
   const socialLinks = [
-    { href: 'https://github.com', icon: <Github size={20} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" /> },
-    { href: 'https://linkedin.com', icon: <Linkedin size={20} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" /> },
+    { href: 'https://github.com/sk-technology801?tab=repositories', icon: <Github size={20} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" /> },
+    { href: 'https://www.linkedin.com/in/sk-technology-05080b338/', icon: <Linkedin size={20} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" /> },
     { href: 'https://twitter.com', icon: <Twitter size={20} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" /> },
   ];
 
@@ -94,9 +94,9 @@ const Footer: React.FC = () => {
             <h4 className="text-xl font-bold text-cyan-300 mb-4 uppercase tracking-wide">Contact</h4>
             <ul className="space-y-3">
               {[
-                { icon: <Mail size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" />, text: 'info@nexuslabs.com' },
-                { icon: <Phone size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" />, text: '+1 (555) 123-4567' },
-                { icon: <MapPin size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" />, text: '123 Tech Street, Silicon Valley, CA' },
+                { icon: <Mail size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" />, text: 'saaddst21@gmail.com' },
+                { icon: <Phone size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" />, text: '+92 (308) 493-1083' },
+                { icon: <MapPin size={16} className="text-cyan-300 group-hover:text-cyan-100 transition-transform duration-300 group-hover:scale-110" />, text: 'kohinnor main jarawala road faisalabad' },
               ].map((contact, index) => (
                 <li key={index} className="group flex items-center text-cyan-300/70 text-sm">
                   {contact.icon}

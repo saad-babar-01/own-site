@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, User, MessageSquare, Briefcase, Globe, Calendar, CheckCircle, Star, Zap, Shield, Users, Award, ExternalLink, Linkedin, Twitter, Github } from 'lucide-react';
 
@@ -44,14 +44,14 @@ const Contact: React.FC = () => {
     {
       icon: <Mail size={32} className="text-cyan-300" />,
       title: 'Email Us',
-      value: 'contact@nexuslabs.com',
+      value: 'saaddst21@gmail.com',
       description: 'Send us your project details',
-      action: 'mailto:contact@nexuslabs.com'
+      action: 'mailto:saaddst21@gmail.com'
     },
     {
       icon: <Phone size={32} className="text-cyan-300" />,
       title: 'Call Us',
-      value: '+1 (555) 123-4567',
+      value: '+92 (308) 493-1083',
       description: 'Speak with our experts',
       action: 'tel:+15551234567'
     },
@@ -132,15 +132,37 @@ const Contact: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus('sending');
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setFormStatus('success');
-      setTimeout(() => setFormStatus('idle'), 3000);
-    }, 2000);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        setFormStatus('success');
+        setFormData({
+          name: '',
+          email: '',
+          company: '',
+          phone: '',
+          service: '',
+          budget: '',
+          timeline: '',
+          message: '',
+          newsletter: false
+        });
+        setTimeout(() => setFormStatus('idle'), 3000);
+      } else {
+        setFormStatus('error');
+      }
+    } catch (error) {
+      setFormStatus('error');
+    }
   };
 
   const faqs = [
@@ -251,6 +273,7 @@ const Contact: React.FC = () => {
                       onChange={handleInputChange}
                       className="w-full bg-black/60 border border-cyan-500/30 rounded-lg px-4 py-3 text-cyan-100 placeholder-cyan-300/50 focus:border-cyan-500 focus:outline-none focus:shadow-[0_0_15px_rgba(0,255,255,0.3)] transition-all duration-300"
                       placeholder="John Doe"
+                      required
                     />
                   </div>
                   <div>
@@ -263,7 +286,8 @@ const Contact: React.FC = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       className="w-full bg-black/60 border border-cyan-500/30 rounded-lg px-4 py-3 text-cyan-100 placeholder-cyan-300/50 focus:border-cyan-500 focus:outline-none focus:shadow-[0_0_15px_rgba(0,255,255,0.3)] transition-all duration-300"
-                      placeholder="john@company.com"
+                      placeholder="sardarsaadisaadi@gmail.com"
+                      required
                     />
                   </div>
                 </div>
@@ -306,6 +330,7 @@ const Contact: React.FC = () => {
                     value={formData.service}
                     onChange={handleInputChange}
                     className="w-full bg-black/60 border border-cyan-500/30 rounded-lg px-4 py-3 text-cyan-100 focus:border-cyan-500 focus:outline-none focus:shadow-[0_0_15px_rgba(0,255,255,0.3)] transition-all duration-300"
+                    required
                   >
                     <option value="">Select a service</option>
                     {services.map((service) => (
@@ -366,6 +391,7 @@ const Contact: React.FC = () => {
                     onChange={handleInputChange}
                     className="w-full bg-black/60 border border-cyan-500/30 rounded-lg px-4 py-3 text-cyan-100 placeholder-cyan-300/50 focus:border-cyan-500 focus:outline-none focus:shadow-[0_0_15px_rgba(0,255,255,0.3)] transition-all duration-300 resize-none"
                     placeholder="Tell us about your project, goals, and requirements..."
+                    required
                   />
                 </div>
 
@@ -396,7 +422,12 @@ const Contact: React.FC = () => {
                   ) : formStatus === 'success' ? (
                     <>
                       <CheckCircle size={20} className="mr-3" />
-                      Message Sent!
+                      Contact Saved Successfully!
+                    </>
+                  ) : formStatus === 'error' ? (
+                    <>
+                      <Send size={20} className="mr-3" />
+                      Error Saving Contact. Try Again.
                     </>
                   ) : (
                     <>
